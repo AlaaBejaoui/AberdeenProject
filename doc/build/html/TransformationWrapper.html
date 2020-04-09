@@ -85,12 +85,13 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">project</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">TransformationWrapper module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configFile.html">configFile module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="csvToDataframe.html">csvToDataframe module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csvToDataframe.html">csvToDataframe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataCleaning.html">dataCleaning module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataPipelines.html">dataPipelines module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modelFitting.html">modelFitting module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Need help?</a></li>
 </ul>
 
             
@@ -161,7 +162,7 @@
 <span id="transformationwrapper-module"></span><h1>TransformationWrapper module<a class="headerlink" href="#module-TransformationWrapper" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="TransformationWrapper.LabelEncoderP">
-<em class="property">class </em><code class="sig-prename descclassname">TransformationWrapper.</code><code class="sig-name descname">LabelEncoderP</code><a class="headerlink" href="#TransformationWrapper.LabelEncoderP" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">TransformationWrapper.</code><code class="sig-name descname">LabelEncoderP</code><a class="reference internal" href="_modules/TransformationWrapper.html#LabelEncoderP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TransformationWrapper.LabelEncoderP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.preprocessing._label.LabelEncoder</span></code></p>
 <p>ttttt</p>
 <dl class="field-list simple">
@@ -177,7 +178,7 @@
 </dl>
 <dl class="py method">
 <dt id="TransformationWrapper.LabelEncoderP.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#TransformationWrapper.LabelEncoderP.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TransformationWrapper.html#LabelEncoderP.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TransformationWrapper.LabelEncoderP.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit label encoder</p>
 <dl class="simple">
 <dt>y<span class="classifier">array-like of shape (n_samples,)</span></dt><dd><p>Target values.</p>
@@ -188,7 +189,7 @@
 
 <dl class="py method">
 <dt id="TransformationWrapper.LabelEncoderP.fit_transform">
-<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#TransformationWrapper.LabelEncoderP.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TransformationWrapper.html#LabelEncoderP.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TransformationWrapper.LabelEncoderP.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit label encoder and return encoded labels</p>
 <dl class="simple">
 <dt>y<span class="classifier">array-like of shape [n_samples]</span></dt><dd><p>Target values.</p>
@@ -199,7 +200,7 @@
 
 <dl class="py method">
 <dt id="TransformationWrapper.LabelEncoderP.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#TransformationWrapper.LabelEncoderP.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TransformationWrapper.html#LabelEncoderP.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TransformationWrapper.LabelEncoderP.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform labels to normalized encoding.</p>
 <dl class="simple">
 <dt>y<span class="classifier">array-like of shape [n_samples]</span></dt><dd><p>Target values.</p>
@@ -212,7 +213,7 @@
 
 <dl class="py class">
 <dt id="TransformationWrapper.TransformationWrapper">
-<em class="property">class </em><code class="sig-prename descclassname">TransformationWrapper.</code><code class="sig-name descname">TransformationWrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fitation</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">transformation</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#TransformationWrapper.TransformationWrapper" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">TransformationWrapper.</code><code class="sig-name descname">TransformationWrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fitation</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">transformation</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TransformationWrapper.html#TransformationWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TransformationWrapper.TransformationWrapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
 <p>qqq</p>
 <dl class="field-list simple">
@@ -231,12 +232,12 @@
 </dl>
 <dl class="py method">
 <dt id="TransformationWrapper.TransformationWrapper.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#TransformationWrapper.TransformationWrapper.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TransformationWrapper.html#TransformationWrapper.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TransformationWrapper.TransformationWrapper.fit" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="TransformationWrapper.TransformationWrapper.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#TransformationWrapper.TransformationWrapper.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TransformationWrapper.html#TransformationWrapper.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TransformationWrapper.TransformationWrapper.transform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

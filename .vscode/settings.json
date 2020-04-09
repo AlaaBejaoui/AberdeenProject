@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/home/alaa/anaconda3/envs/aberdeen/bin/python"
+    "python.pythonPath": "/home/alaa/anaconda3/envs/aberdeen/bin/python",
+    "restructuredtext.confPath": "${workspaceFolder}/doc/source"
 }

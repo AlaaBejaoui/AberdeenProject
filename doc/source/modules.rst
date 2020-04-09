@@ -1,6 +1,8 @@
 project
 =======
 
+The project contains 6 mains files
+
 .. toctree::
    :maxdepth: 4
 
@@ -10,3 +12,5 @@ project
    dataCleaning
    dataPipelines
    modelFitting
+
+the first one ..
