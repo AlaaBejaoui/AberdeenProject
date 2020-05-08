@@ -1,4 +1,7 @@
-from TransformationWrapper import * 
+import os
+import sys
+print(sys.path.append(os.getcwd()))
+from project.TransformationWrapper import * 
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer

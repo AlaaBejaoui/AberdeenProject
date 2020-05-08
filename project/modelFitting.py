@@ -1,10 +1,13 @@
-from configFile import *
+import os
+import sys
+print(sys.path.append(os.getcwd()))
+from project.configFile import *
+from project.dataPipelines import full_pipeline
+import project.dataCleaning
 import pickle
 import os
 import pandas as pd
-from dataPipelines import full_pipeline
 import numpy as np
-import dataCleaning
 
 data = pickle.load(open(os.path.join(data_picklefile_dir, data_picklefile), "rb"))
 

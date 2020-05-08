@@ -1,4 +1,7 @@
-from configFile import *
+import os
+import sys
+print(sys.path.append(os.getcwd()))
+from project.configFile import *
 import pickle
 import os
 import math

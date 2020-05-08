@@ -1,5 +1,6 @@
 """configuration file
 """
+
 basepath = '/home/alaa/Desktop/StageDavide/aberdeen/project'
 data_picklefile =  "test_data.pkl" #"montreal_dataFrame.pkl"
 manualDecisionFile = "manual_decision.pkl"

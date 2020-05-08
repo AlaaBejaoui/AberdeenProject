@@ -1,10 +1,12 @@
-from configFile import *
 import os
+import sys
+print(sys.path.append(os.getcwd()))
+from project.configFile import *
 import pandas as pd
 
 def extractAllSITEID():
     """test
-    
+
     :return: aaa
     :rtype: list
     """
@@ -16,12 +18,12 @@ def extractAllSITEID():
             SITEID_set.update(set(df["SITEID"]))
         except:
             print(f"SITEID not found in {file}")
-    return SITEID_set 
+    return SITEID_set
 
 
 def extractAllFeatures():
     """test
-    
+
     :return: aaa
     :rtype: list
     """
@@ -33,16 +35,19 @@ def extractAllFeatures():
         try:
             df["SITEID"]
         except:
-            print(f"SITEID not found in {file}. Columns are not going to be added!")
+            print(
+                f"SITEID not found in {file}. Columns are not going to be added!")
         else:
             COLUMNS_dict[file] = set(df.columns)
             COLUMNS_set.update(set(df.columns))
     return COLUMNS_set, COLUMNS_dict
 
-#TODO: parall. with a decorator
+# TODO: parall. with a decorator
+
+
 def createDataFrame(SITEID_set, COLUMNS_set, COLUMNS_dict):
     """tttt
-    
+
     :param SITEID_set: qqq
     :type SITEID_set: list
     :param COLUMNS_set: aaaa
@@ -53,26 +58,30 @@ def createDataFrame(SITEID_set, COLUMNS_set, COLUMNS_dict):
     :rtype: list
     """
 
-    index=0
+    index = 0
     first = True
     for id in SITEID_set:
-        SITEID_dict = dict.fromkeys(COLUMNS_set, float("nan"))     
-        for _, (file, _)  in enumerate(COLUMNS_dict.items()):
+        SITEID_dict = dict.fromkeys(COLUMNS_set, float("nan"))
+        for _, (file, _) in enumerate(COLUMNS_dict.items()):
             df = pd.read_csv(os.path.join(data_csv_dir, file), sep='\t')
             try:
-                SITEID_dict.update((df.loc[df['SITEID'] == id].iloc[0]).to_dict()) #TODO: must be discussed!
+                # TODO: must be discussed!
+                SITEID_dict.update(
+                    (df.loc[df['SITEID'] == id].iloc[0]).to_dict())
             except:
                 pass
 
         if first:
-            data = pd.DataFrame.from_dict([SITEID_dict],orient='columns')
+            data = pd.DataFrame.from_dict([SITEID_dict], orient='columns')
             first = False
         else:
-            data = data.append(pd.DataFrame.from_dict([SITEID_dict],orient='columns'), ignore_index = True) 
+            data = data.append(pd.DataFrame.from_dict(
+                [SITEID_dict], orient='columns'), ignore_index=True)
 
         print(f"index: {index}")
-        index+=1
+        index += 1
     return data
+
 
 def main():
     """main function
@@ -81,7 +90,8 @@ def main():
     SITEID_set = extractAllSITEID()
     COLUMNS_set, COLUMNS_dict = extractAllFeatures()
     dataframe = createDataFrame(SITEID_set, COLUMNS_set, COLUMNS_dict)
-    dataframe.to_pickle(os.path.join(data_picklefile_dir, data_picklefile)) 
+    dataframe.to_pickle(os.path.join(data_picklefile_dir, data_picklefile))
+
 
 if __name__ == "__main__":
     main()
