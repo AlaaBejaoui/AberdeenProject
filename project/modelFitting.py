@@ -1,7 +1,7 @@
 import os
 import sys
 print(sys.path.append(os.getcwd()))
-from project.configFile import *
+from project.configFile import ConfigurationFile
 from project.dataPipelines import full_pipeline
 import project.dataCleaning
 import pickle
