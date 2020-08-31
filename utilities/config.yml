@@ -1,9 +1,0 @@
-#TDOD:relative path
-dirConfig:
-    workingDir: "/home/alaa/Desktop/AberdeenProject"
-    dataDir: "/home/alaa/Desktop/AberdeenProject/data"
-fileConfig:
-    dataFile: "test_data.pkl"
-    manualDecisionFile: "manual_decision.pkl"
-simConfig:
-    threshold: 50
