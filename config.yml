@@ -1,9 +1,9 @@
 dirConfig:
-  workingDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject"
+  workingDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject"
   # workingDir: "/home/linux/Desktop/AberdeenProject"
-  dataDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\data"
+  dataDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject\\data"
   # dataDir: "/home/linux/Desktop/AberdeenProject/data"
-  pklDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\pickledData"
+  pklDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject\\pickledData"
   # pklDir: "/home/linux/Desktop/AberdeenProject/pickledData"
 
 fileConfig:
@@ -35,26 +35,3 @@ labels:
   STORAGE_CAPACITY_EXPANSION_PLS:
     missing: "most_frequent" 
     preprocessing: None
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  # ENT_PRINTER: "most_frequent"
-  # ENT_STORAGE: "most_frequent"
-  # ENT_EXTENSIONS: "most_frequent"
-  # ENT_WIRELESS_USERS: "most_frequent"
-  # ENT_INTERNET_USERS: "most_frequent"
-  # ENT_NETWORKLINES: "most_frequent"
-  # ENT_IT_BUDGET: "most_frequent"
-  # ENT_HARDWARE_BUDGET: "most_frequent"
-  # ENT_PC_BUDGET: "most_frequent"

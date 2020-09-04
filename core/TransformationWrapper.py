@@ -47,12 +47,11 @@ class TransformationWrapper(BaseEstimator, TransformerMixin):
 
 
 class LabelEncoderP(LabelEncoder):
-    """ttttt
+    """
+    Wrapper for the class LabelEncoder
 
     :param LabelEncoder: zzzz
     :type LabelEncoder: list
-    :return: kkkk
-    :rtype: list
     """
 
     def fit(self, X, y=None):

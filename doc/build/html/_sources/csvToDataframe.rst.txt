@@ -1,9 +1,0 @@
-csvToDataframe 
-=====================
-
-ech bina hala hala
-
-.. automodule:: csvToDataframe
-   :members:
-   :undoc-members:
-   :show-inheritance:
