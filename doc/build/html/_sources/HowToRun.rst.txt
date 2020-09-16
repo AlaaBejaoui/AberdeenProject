@@ -29,19 +29,19 @@ The configuration file is a yaml file that is located in **AberdeenProject/** an
 
 The variables that should be defined in the configuration file are the following:
 
-* **workingDir**: 
+* **workingDir**
     which defines the path to the working directory
-* **dataDir**: 
+* **dataDir**
     which defines the path to the data directory where the csv-files are stored
-* **pklDir**: 
+* **pklDir** 
     which defines the path to the directory where the pickled dataframe will be stored
-* **pickledData_all**: 
+* **pickledData_all**
     which defines the name of the complete pickled dataframe 
-* **pickledData_afterThFiltering**:
+* **pickledData_afterThFiltering**
     which defines the name of the pickled dataframe after the threshold filtering 
-* **joinBasedOn**: 
+* **joinBasedOn**
     which defines the column name based on which the csv-files will concatenated in order to generate the full dataframe
-* **threshold**: 
+* **threshold**
     which defines the percentage of missing values based on which the decision whether a column should be dropped will be made 
 
 Features and labels

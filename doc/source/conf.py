@@ -11,9 +11,9 @@ copyright = '2020, Alaa Bejaoui, Maha Badri'
 author = 'Alaa Bejaoui, Maha Badri'
 
 # The short X.Y version
-#version = '1'
+# version = ''
 # The full version, including alpha/beta/rc tags
-#release = '1'
+# release = '1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -28,7 +28,7 @@ author = 'Alaa Bejaoui, Maha Badri'
 extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.githubpages',
-    'sphinx.ext.viewcode', 
+    'sphinx.ext.viewcode',
     'sphinx.ext.autodoc'
 ]
 
@@ -86,7 +86,4 @@ html_static_path = ['_static']
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
-#---sphinx-themes-----
-html_theme = 'neo_rtd_theme'
-import sphinx_theme
-html_theme_path = [sphinx_theme.get_html_theme_path()]
+html_theme = 'sphinx_rtd_theme'
