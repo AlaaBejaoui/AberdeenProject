@@ -13,38 +13,38 @@ from utilities.loadConfigFile import loadConfigFile
 
 def main():
     """
-    This function defines the complete workflow, from dataframe generation to rules extraction from decision Tree
+    This function defines the complete workflow, from dataframe generation to rules extraction from decision tree
     """
 
-    ## creating the dataframe from csv files
+    ## Creating the dataframe from csv files
     data = DataframeCreator()
     data.createDataframe()
     data.threshholdFiltering()
 
-    ## loading the data to work with from the pickle file
+    ## Loading the dataframe from the peviously saved pickle file
     pickleDir = loadConfigFile().get("dirConfig").get("pklDir")
-    pickleFile = loadConfigFile().get("fileConfig").get("pickledData_kept")
+    pickleFile = loadConfigFile().get("fileConfig").get("pickledData_afterThFiltering")
     filePath = os.path.join(pickleDir, pickleFile)
     data = pickle.load(open(filePath,'rb'))
 
-    ## initializing the full pipeline
+    ## Initializing the full pipeline
     fullPipeline = FullPipeline()
     fullPipeline.initialize(data)
 
-    ## building the missing values and the preprocessing pipelines
+    ## Building the missing values and the preprocessing pipelines
     missingValuesPipeline = MissingValuesPipeline()
     preprocessingPipeline = PreprocessingPipeline()
     missingValuesPipeline.buildPipeline()
     preprocessingPipeline.buildPipeline()
 
-    ## adding the missing values and the preprocessing pipelines to the full pipeline
+    ## Adding the missing values and the preprocessing pipelines to the full pipeline
     fullPipeline.addPipeline(missingValuesPipeline)
     fullPipeline.addPipeline(preprocessingPipeline)
 
-    ## fitting the dataframe to the full pipeline
+    ## Fitting the dataframe to the full pipeline
     data = fullPipeline.fit_transform(data)
 
-    ## fitting the model with the data
+    ## Fitting the model
     model = Model(data, "decisionTree", max_depth=2)
     model.fit()
     model.buildRules("aberdeenData.dot")

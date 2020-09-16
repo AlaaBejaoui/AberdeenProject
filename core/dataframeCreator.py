@@ -9,20 +9,17 @@ import multiprocessing
 import yaml
 
 import os
-# import sys
-# sys.path.append(os.getcwd())
-
 
 class DataframeCreator:
     """
-    This class contains all methods and attributes to create a single Pandas Dataframe for a given features and labels 
-    from the csv-files.
+    This class contains all methods and attributes needed in order to create a single Pandas dataframe from features and labels 
+    chosen by the user.
     """
 
     def __init__(self):
         """
-        The constructor of this class loads the needed variables to run the code from the configuration file 
-        and creates an empty Pandas Dataframe. 
+        The constructor of this class loads the needed variables from the configuration yaml file 
+        and creates an empty Pandas dataframe. 
         """
 
         self.config = loadConfigFile()
@@ -32,10 +29,10 @@ class DataframeCreator:
         """
         A wrapper function to wrap the read_csv function from Pandas 
 
-        :param file: path of the csv-file to be read
+        :param file: Path to the csv-file to be read
         :type file: String
         :return: The csv-file is returned as two-dimensional data structure with labeled axes.
-        :rtype: Pandas Dataframe
+        :rtype: Pandas dataframe
         """
 
         dataDir = self.config.get("dirConfig").get("dataDir")
@@ -43,10 +40,10 @@ class DataframeCreator:
 
     def createDataframe(self):
         """
-        Every csv-file in data/ is read and transformed to Pandas Dataframe. After that, all the dataframes 
-        are concatenated vertically based on the variable "joinBasedOn" from the configuration file "config.yml". 
-        To avoid repeating the process everytime we run code, the dataframe is pickeled and stored 
-        in the directory "pickeledData" 
+        Every csv-file in the directory "data/" is read and transformed into a Pandas dataframe. After that, all the dataframes 
+        are concatenated vertically based on the variable "joinBasedOn" given by the user in the configuration yaml file. 
+        To avoid repeating this process everytime the code is run, the dataframe is pickeled and stored as a pickle file
+        in the directory "pickeledData/". 
         This function is parallelized over all available CPUs using the multiprocessing library. 
         """
 
@@ -71,7 +68,7 @@ class DataframeCreator:
                     self.dataframe = self.dataframe.merge(
                         collectedData[index], how='outer', on=[joinBasedOn])
 
-        # remove duplicated columns
+        # Remove duplicated columns
         self.dataframe = self.dataframe.loc[:,
                                             ~self.dataframe.columns.duplicated()]
 
@@ -80,11 +77,11 @@ class DataframeCreator:
 
     def pickleDataframe(self, dataframe, pickledDataFile):
         """
-        This function save a given Pandas Dataframe as a pickle file
+        This function saves a given Pandas dataframe as a pickle file
 
-        :param dataframe: Pandas Dataframe to be saved
-        :type dataframe: Pandas Dataframe
-        :param pickledDataFile: pickle file saving path 
+        :param dataframe: Pandas dataframe to be saved
+        :type dataframe: Pandas dataframe
+        :param pickledDataFile: Path to the desired location of the pickle file 
         :type pickledDataFile: String
         """
 
@@ -98,12 +95,12 @@ class DataframeCreator:
 
     def threshholdFiltering(self):
         """
-        This function filters the data based on the value of "threshold" that is set in the configuration file. 
-        The entire column will be ignored if there are too many missing values.
-        The dataframe after applying the threshhold filtering will be pickled and stored in the directory "pickeledData".
+        This function filters the data based on the value of "threshold" given by the user in the configuration yaml file. 
+        The entire column will be ignored if the number of missing values exceeds the threshhold.
+        The dataframe after applying the threshhold filtering will be pickled and stored in the directory "pickeledData/".
         """
 
-        # check if the pickle file exists
+        # Check if the pickle file exists
         pklDir = self.config.get("dirConfig").get("pklDir")
         pickledDataFile = self.config.get("fileConfig").get("pickledData_all")
         exist = os.path.exists(os.path.join(pklDir, pickledDataFile))
@@ -111,25 +108,24 @@ class DataframeCreator:
 
         dataframe = loadPickledData(os.path.join(pklDir, pickledDataFile))
 
-        # define the columns to be kept
         columnsToKeep_list = []
         statistics = Statistics(os.path.join(
             pklDir, pickledDataFile)).getColumnsStatistics()
         threshold = float(self.config.get("missingConfig").get("threshold"))
         for column in chain(loadConfigFile().get("features").items(), loadConfigFile().get("labels").items()):
-            # check threshhold
+            # Check threshhold
             try:
                 missingProp = float(
                     statistics[column].loc[statistics[column].index.isnull()])
             except:
-                # no missing values found
+                # No missing values found
                 columnsToKeep_list.append(column)
             else:
-                # missing values found.
-                # if the missing values ratio is smaller than the defined threshhold, the column
+                # Missing values found
+                # If the missing values ratio is smaller than the defined threshhold, the column
                 # will be kept, and dropped otherweise
                 if missingProp < threshold:
                     columnsToKeep_list.append(column)
 
         self.pickleDataframe(dataframe[columnsToKeep_list], self.config.get(
-            "fileConfig").get("pickledData_kept"))
+            "fileConfig").get("pickledData_afterThFiltering"))

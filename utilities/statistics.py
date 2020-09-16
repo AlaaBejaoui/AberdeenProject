@@ -2,14 +2,14 @@ from utilities.loadPickledData import loadPickledData
 
 class Statistics:
     """
-    This class generates descriptive statistics of a dataframe
+    This class generates descriptive statistics of a Pandas dataframe
     """
 
     def __init__(self, filepath):
         """
         The constructor loads the pickled dataframe
 
-        :param filepath: path of the pickeled dataframe
+        :param filepath: Path to the pickeled dataframe
         :type filepath: String
         """
         
@@ -18,18 +18,19 @@ class Statistics:
     
     def getShape(self):
         """
-        get the shape of a Pandas Dataframe
+        This function returns the shape of a given Pandas dataframe
 
-        :return: shape of a dataframe
-        :rtype: tuple
+        :return: Shape of a Pandas dataframe
+        :rtype: Tuple
         """
 
         return self.dataframe.shape
 
     def getKeptColumns(self):
         """
-        get the kept columns of a Pandas Dataframe
-        :return: Kept columns
+        This function returns the remaining columns of a Pandas dataframe
+
+        :return: Remaining columns of a Pandas dataframe
         :rtype: List
         """
 
@@ -37,20 +38,20 @@ class Statistics:
 
     def getNumKeptColumns(self):
         """
-        get the number kept columns of a Pandas Dataframe
+        This function returns the number of remaining columns of a Pandas dataframe
 
-        :return: Number of kept columns
-        :rtype: int
+        :return: Number of remaining columns
+        :rtype: Integer
         """
 
         return len(list(self.dataframe.columns))
 
     def getUniqueValues(self):
         """
-        get unique values per columns
+        This function returns all unique values per column
 
-        :return: Dict containing the unique values per column
-        :rtype: Dict
+        :return: Dictionary containing all unique values per column
+        :rtype: Dictionary
         """
 
         uniqueValue_dict = dict.fromkeys(self.dataframe.columns, None)
@@ -58,15 +59,15 @@ class Statistics:
             try:
                 uniqueValue_dict[column] = self.dataframe[column].unique()
             except:
-                print(f" problem by the column: {column}")
+                print(f" Problem by the column: {column}")
         return uniqueValue_dict
 
     def getColumnsStatistics(self):
         """
-        return a Series containing counts of unique values per columns
+        This function returns a Series containing counts of unique values per column
 
-        :return: counts of unique values per columns
-        :rtype: Dict
+        :return: Dictionary containing all counts of unique values per column
+        :rtype: Dictionary
         """
 
         statistics_dict = dict.fromkeys(self.dataframe.columns, None)
@@ -74,5 +75,5 @@ class Statistics:
             try:
                 statistics_dict[column] = self.dataframe[column].value_counts(normalize=True,dropna=False)*100
             except:
-                print(f" problem by the column: {column}")
+                print(f" Problem by the column: {column}")
         return statistics_dict

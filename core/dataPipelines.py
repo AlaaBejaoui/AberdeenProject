@@ -10,7 +10,7 @@ from itertools import chain
 
 class FullPipeline:
     """
-    This class chain multiple pipelines (the missing values pipeline, the preprocessing pipeline, ...) 
+    This class chains multiple pipelines (the missing values pipeline, the preprocessing pipeline, ...) 
     into one single pipeline.  
     """
     
@@ -21,29 +21,29 @@ class FullPipeline:
     @classmethod
     def initialize(cls, data):
         """
-        This function initializes the full pipeline with the Pandas Dataframe. 
+        This function initializes the full pipeline with the Pandas dataframe. 
         The column names will be stored as a class attribute and then recovered when needed.
 
-        :param data: Pandas Dataframe for the initialisation
+        :param data: Pandas dataframe needed for the initialization
         :type data: Pandas Dataframe
         """
         cls.columns = data.columns
 
     @classmethod
-    def recoverColumnsNames(cls):
+    def _recoverColumnsNames(cls):
         """
-        This function returns the column names of the Pandas Dataframe
+        This function returns the column names of the Pandas dataframe
 
-        :return: column names
-        :rtype: list
+        :return: Column names of the Pandas dataframe
+        :rtype: List
         """
         return cls.columns
 
     def addPipeline(self, pipeline):
         """
-        This function adds a pipeline to the full pipeline
+        This function adds a given pipeline to the full pipeline
 
-        :param pipeline: Data pipeline
+        :param pipeline: Data pipeline to be added the full pipeline
         :type pipeline: Pipeline
         """
         self.__class__.pipelines.append(pipeline)
@@ -52,10 +52,10 @@ class FullPipeline:
         """
         This function feeds the data to the full pipeline
 
-        :param data: Pandas Dataframe to be transformed
-        :type data: Pandas Dataframe
-        :return: transformed Pandas Dataframe
-        :rtype: Pandas Dataframe
+        :param data: Pandas dataframe to be transformed
+        :type data: Pandas dataframe
+        :return: Transformed Pandas dataframe
+        :rtype: Pandas dataframe
         """
         
         for pipeline in self.__class__.pipelines:
@@ -63,7 +63,7 @@ class FullPipeline:
                 data = pipeline.fit_transform(data)
             else:
                 data = pd.DataFrame(pipeline.fit_transform(data))
-                data.columns = self.__class__.recoverColumnsNames()
+                data.columns = self.__class__._recoverColumnsNames()
 
         return data
 
@@ -78,19 +78,19 @@ class MissingValuesPipeline:
 
     def __init__(self):
         """
-        Check if the full pipeline is initialized with the dataframe or not.
+        Check whether the full pipeline is initialized with the dataframe.
         """
-        assert not(FullPipeline.columns.empty), "You have to initialize the entire pipeline with the data in order to keep the columns'names!" 
+        assert not(FullPipeline.columns.empty), "You have to initialize the entire pipeline with the data in order to keep the columns names!" 
 
     def addSimpleImputerPipeline(self, column, strategy="most_frequent"):
         """
         This function provides basic strategies for imputing missing values that can be imputed with a provided constant value, or using 
         the statistics (mean, median or most frequent) of a column in which the missing values are located.
 
-        :param column: a column of the Pandas Dataframe
+        :param column: Column of the Pandas dataframe
         :type column: String
         :param strategy: Strategy of the imputation, defaults to "most_frequent"
-        :type strategy: str, optional
+        :type strategy: String, optional
         """
         assert strategy in self.__class__.allowed_strategies, f"{strategy}: Unknown imputation strategy!"
 
@@ -99,7 +99,7 @@ class MissingValuesPipeline:
 
     def buildPipeline(self):
         """
-        This function builds the missing values pipeline and prepares it to be feeded with the Pandas Dataframe.
+        This function builds the missing values pipeline and prepares it to be fed with the Pandas dataframe.
         """
         
         for featureOrLabel, strategy in chain(loadConfigFile().get("features").items(), loadConfigFile().get("labels").items()):
@@ -107,16 +107,16 @@ class MissingValuesPipeline:
 
     def fit_transform(self, dataframe, remainder="passthrough", parallelize=True):
         """
-        Fit to data, then transform it.
+        Fit to data, then transform it
 
-        :param dataframe: Pandas Dataframe to be passed through the missing values pipeline
-        :type dataframe: Pandas Dataframe
-        :param remainder: By specifying remainder='passthrough', all remaining columns that were not specified in transformers will be automatically passed through. Otherweise, non-specified columns are dropped. defaults to "passthrough"
-        :type remainder: str, optional
-        :param parallelize: parallelize the job using all processors. defaults to True
-        :type parallelize: bool, optional
-        :return: Pandas Dataframe without missing values
-        :rtype: Pandas Dataframe
+        :param dataframe: Pandas dataframe to be passed through the missing values pipeline
+        :type dataframe: Pandas dataframe
+        :param remainder: By specifying remainder='passthrough', all remaining columns that were not specified in transformers will be automatically passed through. Otherweise, non-specified columns are dropped, defaults to "passthrough"
+        :type remainder: String, optional
+        :param parallelize: Parallelize the job using all processors, defaults to True
+        :type parallelize: Boolean, optional
+        :return: Pandas dataframe without missing values
+        :rtype: Pandas dataframe
         """
 
         if parallelize:
@@ -143,15 +143,15 @@ class PreprocessingPipeline:
 
     def __init__(self):
         """
-        Check if the full pipeline is initialized with the dataframe or not.
+        Check whether the full pipeline is initialized with the dataframe.
         """
-        assert not(FullPipeline.columns.empty), "You have to initialize the entire pipeline with the data in order to keep the columns'names!" 
+        assert not(FullPipeline.columns.empty), "You have to initialize the entire pipeline with the data in order to keep the columns names!" 
 
     def addOnehotEncoderPipeline(self, column, strategy=None):
         """
         Encode categorical feature as a one-hot numeric array
 
-        :param column: a column of the Pandas Dataframe
+        :param column: Column of the Pandas dataframe
         :type column: String
         :param strategy: Preprocessing strategy, defaults to None
         :type strategy: String or None, optional
@@ -165,19 +165,19 @@ class PreprocessingPipeline:
 
     def buildPipeline(self):
         """
-        This function builds the preprocessing pipeline and prepares it to be feeded with the Pandas Dataframe.
+        This function builds the preprocessing pipeline and prepares it to be fed with the Pandas dataframe.
         """
         for featureOrLabel, strategy in chain(loadConfigFile().get("features").items(), loadConfigFile().get("labels").items()):
             self.addOnehotEncoderPipeline(featureOrLabel, strategy.get("preprocessing"))
 
     def fit_transform(self, dataframe):
         """
-        Fit to data, then transform it.
+        Fit to data, then transform it
 
-        :param dataframe: Pandas Dataframe to be passed through the missing values pipeline
-        :type dataframe: Pandas Dataframe
-        :return: one-hot encoded Pandas Dataframe 
-        :rtype: Pandas Dataframe
+        :param dataframe: Pandas dataframe to be passed through the preprocessing pipeline
+        :type dataframe: Pandas dataframe
+        :return: Transformed Pandas dataframe 
+        :rtype: Pandas dataframe
         """
         assert dataframe.__class__.__name__ == "DataFrame", "Only working with pandas dataframe!"
         
@@ -188,16 +188,6 @@ class PreprocessingPipeline:
             else:
                 onehot_dataframe = pd.concat([onehot_dataframe, dataframe[column]], axis=1)
         return onehot_dataframe
-
-
-# custom transformation
-# def transformEducation(self, data):  
-#     if (data == "Assoc-voc") or (data == "Assoc-acdm"):
-#         data = "Associate"
-#     elif (data == "11th") or (data == "10th") or (data == "7th-8th") or (data == "9th") \
-#             or (data == "12th") or (data == "5th-6th") or (data == "1st-4th") or (data == "Preschool"):
-#         data = "Without HS diploma"
-#     return data
 
 
 

@@ -2,10 +2,10 @@ import yaml
 
 def loadConfigFile():
     """
-    This function parses and extract data from the YAML configuration file 
+    This function parses and extracts data from the yaml configuration file 
 
-    :return: Defined variables in the configuration file
-    :rtype: Dict
+    :return: Variables defined by the user in the configuration file
+    :rtype: Dictionary
     """
     
     with open("config.yml", "r") as ymlfile:

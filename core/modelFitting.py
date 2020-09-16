@@ -19,10 +19,11 @@ class Model:
     implemented_algorithms = ("decisionTree", "logisticRegression")
 
     def __init__(self, dataframe, algorithm, **parameters):
-        """Class constructor
+        """
+        Class constructor
 
-        :param dataframe: Pandas Dataframe used to the model fitting
-        :type dataframe: Pandas Dataframe
+        :param dataframe: Pandas dataframe used for the model fitting
+        :type dataframe: Pandas dataframe
         :param algorithm: Algorithm used to fit the data
         :type algorithm: String
         """
@@ -33,8 +34,8 @@ class Model:
 
         self.X = dataframe.loc[:, dataframe.columns != labelName]
         self.y = dataframe[labelName]
-        assert self.X.__class__.__name__ == "DataFrame", "features matrix must be a pandas dataframe!"
-        assert self.y.__class__.__name__ == "Series", "label must be a pandas serie!"
+        assert self.X.__class__.__name__ == "DataFrame", "Features matrix must be a Pandas dataframe!"
+        assert self.y.__class__.__name__ == "Series", "Label must be a Pandas serie!"
 
         assert algorithm in self.__class__.implemented_algorithms, f"{algorithm} not yet implemented!"
         self.algorithm = algorithm
@@ -51,7 +52,7 @@ class Model:
         try:
             self.model.fit(self.X, self.y)
         except ValueError:
-            print("labels type converted to int!")
+            print("Labels type converted to int!")
             self.y = self.y.astype('int')
             self.model.fit(self.X, self.y)
         finally:
@@ -59,31 +60,31 @@ class Model:
 
     def crossValidation(self, cv):
         """
-        This function reports the performance measure by k-fold cross-validation.
+        This function reports the performance measure by k-fold cross-validation
 
         :param cv: Number of folds
-        :type cv: int
+        :type cv: Integer
         """
         
         crossValidationScores = self.crossValidationScores(cv)
         scoreMean = np.mean(crossValidationScores)
         scoreVariance = np.var(crossValidationScores)
         print(
-            f"cross validation mean: {scoreMean},\ncross validation variance: {scoreVariance}")
+            f"Cross validation mean: {scoreMean},\nCross validation variance: {scoreVariance}")
 
     def crossValidationScores(self, cv):
         """
         This function evaluates a score by cross-validation
 
         :param cv: Number of folds
-        :type cv: int
+        :type cv: Integer
         :return: Cross validation scores
-        :rtype: list
+        :rtype: List
         """
         try:
             return cross_val_score(self.model, self.X, self.y, cv=cv)
         except:
-            print("labels type converted to int!")
+            print("Labels type converted to int!")
             self.y = self.y.astype('int')
             return cross_val_score(self.model, self.X, self.y, cv=cv)
 
@@ -106,19 +107,7 @@ class Model:
                              filled=True)
 
     # TODO
-    # still not working in both Windows and Linux! Must be fixed!
-    def decisionTreeToText(self):
-        """
-        This function builds a text report showing the rules of the decision tree
-
-        :return: Text summary of all the rules in the decision tree
-        :rtype: String
-        """
-        rules = export_text(self.fit(), feature_names=self.X.columns)
-        return rules
-
-    # TODO
-    # should be fixed in Windows! (its working in Linux!)
+    # Should be fixed in Windows! (working in Linux!)
     def graphvizToPng(self, out_file):
         """
         Graphical rendering of the decision tree rules from the DOT file 

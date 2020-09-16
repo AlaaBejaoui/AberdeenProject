@@ -8,7 +8,7 @@ dirConfig:
 
 fileConfig:
   pickledData_all: "dataframe_all.pkl"
-  pickledData_kept: "dataframe_kept.pkl"
+  pickledData_afterThFiltering: "dataframe_kept.pkl"
 
 dataframeConfig:
   joinBasedOn: "SITEID"
@@ -16,8 +16,6 @@ dataframeConfig:
 missingConfig:
   threshold: 70
 
-# missing value strategy: "mean", "median", "most_frequent", "constant", "custom"
-# preprocessing: "onehot", None
 features:
   ENT_LAPTOP: 
     missing: "most_frequent"
@@ -31,6 +29,7 @@ features:
   LAPTOPS: 
     missing: "most_frequent" 
     preprocessing: None
+
 labels:
   STORAGE_CAPACITY_EXPANSION_PLS:
     missing: "most_frequent" 
