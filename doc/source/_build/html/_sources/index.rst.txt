@@ -1,0 +1,73 @@
+Welcome to aberdeen's project documentation!
+====================================
+
+Methodology of data gathering:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Aberdeen Technology Data Cloud (ATDC) research methodology has been honed over 40 years of data collection. 
+Trained research assistants complete interviews each month to ensure that the database is as fresh as possible. 
+The database provides coverage across all industries and company sizes. Aberdeen Group ATDC also leverages 
+inferred content across 20 technology areas ranging from total installed PCs to the likely presence of WAN. 
+This intelligence enables Aberdeen Group to develop scores through statistical modeling and application of data 
+obtained that is then provided within the ATDC. From single-location companies to Fortune 1000 enterprises, 
+we seek the business locations, or “sites”, which have future IT purchases, and the decision makers who have 
+the influence and authority driving the purchase of significant technology installations. Respondents to ATDC’s syndicated 
+interviews are IT professionals who are knowledgeable about the technology present at their locations. 
+In each applicable section, all spend numbers are in local currency.^
+
+Goal of the project:
+^^^^^^^^^^^^^^^^^^^^
+
+The aim of this project is to develop a python framework that takes some features as input
+and a label as output in order to build a mathematical model based on decision tree and to extract then
+the rules obtained and present them as an image that can be easily interpreted by the user.
+
+Get started:
+^^^^^^^^^^^^^
+
+This version of code is currently only supported on Linux. It may be possible to install on Windows, 
+though this hasn’t been extensively tested. Some functionality like generating the image with the decision tree rules 
+from the dot file may not work as intended.
+
+Preparing the envirement:
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We recommend using Anaconda to create the virtual envirement. Anaconda is a library that includes Python and many useful 
+packages for Python, as well as an environment manager called conda that makes package management simple.
+Follow the installation instructions for Anaconda here_. 
+
+.. _here: https://docs.continuum.io/anaconda/install/
+
+Download and install Anaconda3. Then create a conda envirement from the yaml file:
+
+.. parsed-literal::
+
+    conda env create -f aberdeen.yml
+
+After that, activate the new environment
+
+.. parsed-literal::
+
+    conda activate aberdeen
+
+You can verify wether the new environment was installed correctly or not:
+
+.. parsed-literal::
+
+    conda env list
+
+Table of Contents:
+=================
+
+.. toctree::
+   :maxdepth: 2
+   
+   Code Format 
+   
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

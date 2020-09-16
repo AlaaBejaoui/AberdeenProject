@@ -1,0 +1,10 @@
+Code Format 
+===========
+
+The workflow in this project adhere to a standard template. It is split into 
+two directories:
+    1) core directory: contains the core logic of the code that goes from 
+the dataframe generation from the csv to the pipeline building and the model fitting. 
+an algorithm file, which contains various utilities needed to run the algorithm.
+, 
+ 

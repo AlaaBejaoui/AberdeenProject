@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How to run? &mdash; Aberdeen  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Aberdeen  documentation" href="index.html"/>
+        <link rel="next" title="Known Bugs" href="Bugs.html"/>
+        <link rel="prev" title="Code Format" href="CodeFormat.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Aberdeen
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CodeFormat.html">Code Format</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to run?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-file">Configuration file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#files-and-directories">Files and directories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#features-and-labels">Features and labels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#code-workflow">Code workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Bugs.html">Known Bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Help.html">Need further help?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">AberdeenProject</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Aberdeen</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>How to run?</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/HowToRun.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="how-to-run">
+<h1>How to run?<a class="headerlink" href="#how-to-run" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="configuration-file">
+<h2>Configuration file<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="files-and-directories">
+<h3>Files and directories<a class="headerlink" href="#files-and-directories" title="Permalink to this headline">¶</a></h3>
+<p>First of all, we start by defining the working directory as well as all the other needed variables to run the code.
+The configuration file is a yaml file that is located in <strong>AberdeenProject/</strong> and can be found under the name <strong>config.yml</strong>.</p>
+<div class="highlight-RST notranslate"><div class="highlight"><pre><span></span>dirConfig:
+    workingDir: &quot;C:\\Users\\alaab\\Desktop\\AberdeenProject&quot;
+    dataDir: &quot;C:\\Users\\alaab\\Desktop\\AberdeenProject\\data&quot;
+    pklDir: &quot;C:\\Users\\alaab\\Desktop\\AberdeenProject\\pickledData&quot;
+
+fileConfig:
+    pickledData_all: &quot;dataframe_all.pkl&quot;
+    pickledData_afterThFiltering: &quot;dataframe_kept.pkl&quot;
+
+dataframeConfig:
+    joinBasedOn: &quot;SITEID&quot;
+
+missingConfig:
+    threshold: 70
+</pre></div>
+</div>
+<p>The variables that should be defined in the configuration file are the following:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>workingDir</strong>:</dt><dd><p>which defines the path to the working directory</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>dataDir</strong>:</dt><dd><p>which defines the path to the data directory where the csv-files are stored</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>pklDir</strong>:</dt><dd><p>which defines the path to the directory where the pickled dataframe will be stored</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>pickledData_all</strong>:</dt><dd><p>which defines the name of the complete pickled dataframe</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>pickledData_afterThFiltering</strong>:</dt><dd><p>which defines the name of the pickled dataframe after the threshold filtering</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>joinBasedOn</strong>:</dt><dd><p>which defines the column name based on which the csv-files will concatenated in order to generate the full dataframe</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>threshold</strong>:</dt><dd><p>which defines the percentage of missing values based on which the decision whether a column should be dropped will be made</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="features-and-labels">
+<h3>Features and labels<a class="headerlink" href="#features-and-labels" title="Permalink to this headline">¶</a></h3>
+<p>The user should also define a single label that will be predicted using a set of features which also should be defined in the configuration file.
+For each defined feature and label, the user should specify the imputation and the preprocessing strategies as well. The following
+startegies are currently supported</p>
+<ul>
+<li><p>Imputation strategies:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>“mean”</strong>: The missing values will be replaced using the mean along each column. This strategy can only be used with numeric data</p></li>
+<li><p><strong>“median”</strong>: The missing values will be replaced using the median along each column. This strategy can only be used with numeric data</p></li>
+<li><p><strong>“most_frequent”</strong>: The missing values will be replaced using the most frequent value along each column. This strategy can be used with strings as well as numeric data</p></li>
+<li><p><strong>“constant”</strong>: The missing values will be replaced using a constant value along each column. This strategy can be used with strings as well as numeric data</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Preprocessing strategies:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>“onehot”</strong>: The features will be encoded using a one-hot encoding scheme, which creates a binary column for each category. This strategy can only be applied to categorical features</p></li>
+<li><p><strong>None</strong>: No preprocessing strategy will be applied to the feature</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="highlight-RST notranslate"><div class="highlight"><pre><span></span>features:
+    ENT_LAPTOP:
+        missing: &quot;most_frequent&quot;
+        preprocessing: &quot;onehot&quot;
+    ENT_SERVER:
+        missing: &quot;most_frequent&quot;
+        preprocessing: &quot;onehot&quot;
+    WIRELESS_USERS:
+        missing: &quot;most_frequent&quot;
+        preprocessing: None
+    LAPTOPS:
+        missing: &quot;most_frequent&quot;
+        preprocessing: None
+labels:
+    STORAGE_CAPACITY_EXPANSION_PLS:
+        missing: &quot;most_frequent&quot;
+        preprocessing: None
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="code-workflow">
+<h2>Code workflow<a class="headerlink" href="#code-workflow" title="Permalink to this headline">¶</a></h2>
+<p>All the steps described below can be found in the file <strong>main.py</strong> which represents the entry point to execute the code.</p>
+<p>The first step consists in creating a Pandas dataframe from the csv-files provided by the user in the <strong>data/</strong> directory. The columns where the percentage of misssing
+values exceeds the user defined threshhold will then be dropped. Next the dataframe will be pickled and stored in the <strong>pickledData/</strong> directory.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">DataframeCreator</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">createDataframe</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">threshholdFiltering</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After that, the dataframe will be loaded from the previously saved pickle file</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pickleDir</span> <span class="o">=</span> <span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dirConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pklDir&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pickleFile</span> <span class="o">=</span> <span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fileConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pickledData_kept&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pickleDir</span><span class="p">,</span> <span class="n">pickleFile</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The next step consists in initializing the full pipeline. This step is important in order to first store the columns names and then recover them when needed.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fullPipeline</span> <span class="o">=</span> <span class="n">FullPipeline</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fullPipeline</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once the full pipeline is initialized, the missing values as well as preprocessing pipelines can be built</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">missingValuesPipeline</span> <span class="o">=</span> <span class="n">MissingValuesPipeline</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">preprocessingPipeline</span> <span class="o">=</span> <span class="n">PreprocessingPipeline</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">missingValuesPipeline</span><span class="o">.</span><span class="n">buildPipeline</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">preprocessingPipeline</span><span class="o">.</span><span class="n">buildPipeline</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>and added to the full pipeline.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fullPipeline</span><span class="o">.</span><span class="n">addPipeline</span><span class="p">(</span><span class="n">missingValuesPipeline</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fullPipeline</span><span class="o">.</span><span class="n">addPipeline</span><span class="p">(</span><span class="n">preprocessingPipeline</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The full pipeline is now ready and can be applied to the dataframe.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">fullPipeline</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The transformed dataframe can now be used to build the model. After fitting the model to the data, the rules are extracted and exported to an image which will be
+stored in the <strong>results/</strong> directory.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;decisionTree&quot;</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">buildRules</span><span class="p">(</span><span class="s2">&quot;aberdeenData.dot&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Below is an example of the generated output image</p>
+<a class="reference internal image-reference" href="_images/aberdeenData.png"><img alt="_images/aberdeenData.png" src="_images/aberdeenData.png" style="width: 600px;" /></a>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Bugs.html" class="btn btn-neutral float-right" title="Known Bugs" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="CodeFormat.html" class="btn btn-neutral" title="Code Format" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Alaa Bejaoui, Maha Badri.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
