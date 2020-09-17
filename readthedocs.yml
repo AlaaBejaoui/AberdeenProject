@@ -3,6 +3,3 @@ build:
 
 python:
   version: 3.8
-
-conda:
-  file: environment.yml
