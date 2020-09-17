@@ -106,8 +106,7 @@ class Model:
                              class_names=class_names,
                              filled=True)
 
-    # TODO
-    # Should be fixed in Windows! (working in Linux!)
+    # TODO: Should be fixed in Windows! (working in Linux!)
     def graphvizToPng(self, out_file):
         """
         Graphical rendering of the decision tree rules from the DOT file 
