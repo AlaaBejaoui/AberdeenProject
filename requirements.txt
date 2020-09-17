@@ -1,4 +1,2 @@
-numpy==1.18.5
 pyyaml
 pandas==1.0.5
-scikit-learn==0.23.1
