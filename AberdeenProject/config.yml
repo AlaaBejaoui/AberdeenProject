@@ -17,20 +17,65 @@ missingConfig:
   threshold: 70
 
 features:
-  ENT_LAPTOP: 
-    missing: "most_frequent"
-    preprocessing: "onehot"
-  ENT_SERVER: 
-    missing: "most_frequent"
-    preprocessing: "onehot"
-  WIRELESS_USERS: 
+  EMPLE: 
+    missing: "mean"
+    preprocessing: None
+  REVEN: 
+    missing: "mean"
+    preprocessing: None
+  MOBILE_WORKERS: 
+    missing: "mean" 
+    preprocessing: None
+  MOBILE_INT: 
     missing: "most_frequent" 
+    preprocessing: "one_hot"
+  DESKTOP_MANUF: 
+    missing: "most_frequent" 
+    preprocessing: "one_hot"
+  LAPTOP_MANUF: 
+    missing: "most_frequent" 
+    preprocessing: "one_hot"
+  IT_BUDGET: 
+    missing: "mean" 
+    preprocessing: None
+  HARDWARE_BUDGET: 
+    missing: "mean" 
+    preprocessing: None
+  PC_BUDGET: 
+    missing: "mean" 
+    preprocessing: None
+  IT_STAFF: 
+    missing: "most_frequent" 
+    preprocessing: "one_hot"
+  INTERNET_USERS: 
+    missing: "most_frequent" 
+    preprocessing: "one_hot"
+  DEVELOPERS: 
+    missing: "most_frequent" 
+    preprocessing: "one_hot"
+  PCS: 
+    missing: "mean" 
+    preprocessing: None
+  DESKTOPS: 
+    missing: "mean" 
     preprocessing: None
   LAPTOPS: 
-    missing: "most_frequent" 
+    missing: "mean" 
     preprocessing: None
-
+  MULTINATIONAL: 
+    missing: "most_frequent" 
+    preprocessing: "one_hot"
+  ENT_TYPE: 
+    missing: "most_frequent" 
+    preprocessing: "one_hot"
+  ENT_RANK: 
+    missing: "mean" 
+    preprocessing: None
+  ENT_LAPTOP: 
+    missing: "most_frequent" 
+    preprocessing: "one_hot"
+  
 labels:
-  STORAGE_CAPACITY_EXPANSION_PLS:
+  LAPTOP_PLS:
     missing: "most_frequent" 
     preprocessing: None
