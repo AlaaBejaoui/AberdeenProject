@@ -1,0 +1,4 @@
+.idea
+AberdeenProject/__pycache__
+AberdeenProject/data
+!AberdeenProject/data/.gitkeep
