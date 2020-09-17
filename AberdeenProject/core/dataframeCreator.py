@@ -46,7 +46,7 @@ class DataframeCreator:
         This function is parallelized over all available CPUs using the multiprocessing library.
         """
 
-        csvFiles = os.listdir(self.config.get("dirConfig").get("dataDir"))
+        csvFiles = [f for f in os.listdir(self.config.get("dirConfig").get("dataDir")) if not f.startswith('.')]
 
         with Pool(len(csvFiles)) as p:
             collectedData = p.map(self.readCsvFile, csvFiles)

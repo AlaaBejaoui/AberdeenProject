@@ -1,16 +1,16 @@
 digraph Tree {
 node [shape=box, style="filled", color="black"] ;
-0 [label="WIRELESS_USERS <= 0.5\ngini = 0.37\nsamples = 14956\nvalue = [498, 7, 839, 868, 11759, 985]\nclass = 4", fillcolor="#9e66eb"] ;
-1 [label="LAPTOPS <= 14938.0\ngini = 0.017\nsamples = 8927\nvalue = [32, 0, 11, 15, 8852, 17]\nclass = 4", fillcolor="#823be5"] ;
+0 [label="INTERNET_USERS_5 to 9 <= 0.5\ngini = 0.396\nsamples = 14956\nvalue = [499, 893, 11494, 381, 405, 1284]\nclass = 2", fillcolor="#6beca1"] ;
+1 [label="ENT_LAPTOP_<250 <= 0.5\ngini = 0.73\nsamples = 4436\nvalue = [369, 633, 1878, 217, 277, 1062]\nclass = 2", fillcolor="#cff9e1"] ;
 0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
-2 [label="gini = 0.016\nsamples = 8926\nvalue = [31, 0, 11, 15, 8852, 17]\nclass = 4", fillcolor="#823be5"] ;
+2 [label="gini = 0.499\nsamples = 857\nvalue = [51, 1, 149, 17, 56, 583]\nclass = 5", fillcolor="#ef86c3"] ;
 1 -> 2 ;
-3 [label="gini = 0.0\nsamples = 1\nvalue = [1, 0, 0, 0, 0, 0]\nclass = 0", fillcolor="#e58139"] ;
+3 [label="gini = 0.703\nsamples = 3579\nvalue = [318, 632, 1729, 200, 221, 479]\nclass = 2", fillcolor="#b5f5d0"] ;
 1 -> 3 ;
-4 [label="LAPTOPS <= 20.5\ngini = 0.697\nsamples = 6029\nvalue = [466, 7, 828, 853, 2907, 968]\nclass = 4", fillcolor="#cfb3f5"] ;
+4 [label="IT_BUDGET <= 33876.5\ngini = 0.163\nsamples = 10520\nvalue = [130, 260, 9616, 164, 128, 222]\nclass = 2", fillcolor="#4ae78c"] ;
 0 -> 4 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
-5 [label="gini = 0.677\nsamples = 5299\nvalue = [391, 7, 819, 822, 2694, 566]\nclass = 4", fillcolor="#caacf4"] ;
+5 [label="gini = 0.042\nsamples = 4292\nvalue = [33, 20, 4200, 20, 9, 10]\nclass = 2", fillcolor="#3de684"] ;
 4 -> 5 ;
-6 [label="gini = 0.599\nsamples = 730\nvalue = [75, 0, 9, 31, 213, 402]\nclass = 5", fillcolor="#f5b7db"] ;
+6 [label="gini = 0.24\nsamples = 6228\nvalue = [97, 240, 5416, 144, 119, 212]\nclass = 2", fillcolor="#54e992"] ;
 4 -> 6 ;
 }

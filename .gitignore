@@ -2,3 +2,5 @@
 .vscode
 AberdeenProject/data
 !AberdeenProject/data/.gitkeep
+AberdeenProject/pickeledDatadata
+!AberdeenProject/pickeledDatadata/.gitkeep

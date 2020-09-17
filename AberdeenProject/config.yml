@@ -1,9 +1,10 @@
 dirConfig:
-  workingDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject"
+  workingDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject"
   # workingDir: "/home/linux/Desktop/AberdeenProject"
-  dataDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject\\data"
+  dataDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject\\data"
+
   # dataDir: "/home/linux/Desktop/AberdeenProject/data"
-  pklDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject\\pickledData"
+  pklDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject\\pickeledData"
   # pklDir: "/home/linux/Desktop/AberdeenProject/pickledData"
 
 fileConfig:
@@ -26,7 +27,7 @@ features:
   MOBILE_WORKERS: 
     missing: "mean" 
     preprocessing: None
-  MOBILE_INT: 
+  MOBILE_INTL:
     missing: "most_frequent" 
     preprocessing: "one_hot"
   DESKTOP_MANUF: 
