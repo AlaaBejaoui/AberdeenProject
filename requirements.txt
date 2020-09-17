@@ -1,4 +1,4 @@
 numpy
 pyyaml
 pandas
-sklearn
+scikit-learn
