@@ -111,6 +111,7 @@ class DataframeCreator:
             pklDir, pickledDataFile)).getColumnsStatistics()
         threshold = float(self.config.get("missingConfig").get("threshold"))
         for column in chain(loadConfigFile().get("features").items(), loadConfigFile().get("labels").items()):
+            column = column[0]
             # Check threshhold
             try:
                 missingProp = float(

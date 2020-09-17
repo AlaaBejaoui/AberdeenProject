@@ -1,3 +1,5 @@
+import os
+import pickle
 import numpy as np
 import pandas as pd
 from numpy import arange
@@ -100,9 +102,15 @@ class MissingValuesPipeline:
         This function builds the missing values pipeline and prepares it to be fed with the Pandas dataframe.
         """
 
+        pickleDir = loadConfigFile().get("dirConfig").get("pklDir")
+        pickleFile = loadConfigFile().get("fileConfig").get("pickledData_afterThFiltering")
+        filePath = os.path.join(pickleDir, pickleFile)
+        data = pickle.load(open(filePath,'rb'))
+
         for featureOrLabel, strategy in chain(loadConfigFile().get("features").items(),
                                               loadConfigFile().get("labels").items()):
-            self.addSimpleImputerPipeline(featureOrLabel, strategy.get("missing"))
+            if featureOrLabel in data.columns:
+                self.addSimpleImputerPipeline(featureOrLabel, strategy.get("missing"))
 
     def fit_transform(self, dataframe, remainder="passthrough", parallelize=True):
         """
@@ -135,7 +143,7 @@ class PreprocessingPipeline:
     This class provides a pipeline for data preprocessing like one-hot encoding.
     """
 
-    allowed_strategies = ("onehot", "None")
+    allowed_strategies = ("one_hot", "None")
 
     pipelines = {}
 
@@ -165,9 +173,17 @@ class PreprocessingPipeline:
         """
         This function builds the preprocessing pipeline and prepares it to be fed with the Pandas dataframe.
         """
+
+        pickleDir = loadConfigFile().get("dirConfig").get("pklDir")
+        pickleFile = loadConfigFile().get("fileConfig").get("pickledData_afterThFiltering")
+        filePath = os.path.join(pickleDir, pickleFile)
+        data = pickle.load(open(filePath,'rb'))
+
         for featureOrLabel, strategy in chain(loadConfigFile().get("features").items(),
                                               loadConfigFile().get("labels").items()):
-            self.addOnehotEncoderPipeline(featureOrLabel, strategy.get("preprocessing"))
+
+            if featureOrLabel in data.columns:
+                self.addOnehotEncoderPipeline(featureOrLabel, strategy.get("preprocessing"))
 
     def fit_transform(self, dataframe):
         """

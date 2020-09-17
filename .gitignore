@@ -1,4 +1,4 @@
 .idea
-AberdeenProject/__pycache__
+.vscode
 AberdeenProject/data
 !AberdeenProject/data/.gitkeep
