@@ -18,65 +18,108 @@ missingConfig:
   threshold: 70
 
 features:
+  # Number of employees
   EMPLE: 
     missing: "mean"
     preprocessing: None
+
+  # Estimated revenue
   REVEN: 
     missing: "mean"
     preprocessing: None
+
+  # Number of mobile employees
   MOBILE_WORKERS: 
     missing: "mean" 
     preprocessing: None
+
+  # Number of employees that travel internationally
   MOBILE_INTL:
     missing: "most_frequent" 
     preprocessing: "one_hot"
+
+  # Year the company was established
+  YEAR_EST:
+    missing: "most_frequent"
+    preprocessing: "one_hot"
+
+  # SIC group
+  SICGRP:
+    missing: "most_frequent"
+    preprocessing: "one_hot"
+
+  # Desktop manufacturer
   DESKTOP_MANUF: 
     missing: "most_frequent" 
     preprocessing: "one_hot"
+
+  # Laptop manufacturer
   LAPTOP_MANUF: 
     missing: "most_frequent" 
     preprocessing: "one_hot"
+
+  # IT budget
   IT_BUDGET: 
     missing: "mean" 
     preprocessing: None
+
+  # Hardware budget
   HARDWARE_BUDGET: 
     missing: "mean" 
     preprocessing: None
+
+  # PC budget
   PC_BUDGET: 
     missing: "mean" 
     preprocessing: None
+
+  # Number of IT employees
   IT_STAFF: 
     missing: "most_frequent" 
     preprocessing: "one_hot"
+
+  # Number of employees using the internet
   INTERNET_USERS: 
     missing: "most_frequent" 
     preprocessing: "one_hot"
+
+  # Number of developers
   DEVELOPERS: 
     missing: "most_frequent" 
     preprocessing: "one_hot"
-  PCS: 
-    missing: "mean" 
-    preprocessing: None
+
+  # Number of desktop PCs
   DESKTOPS: 
     missing: "mean" 
     preprocessing: None
+
+  # Number of laptops
   LAPTOPS: 
     missing: "mean" 
     preprocessing: None
+
+  # Whether the company is identified as a part of a multinational company
   MULTINATIONAL: 
     missing: "most_frequent" 
     preprocessing: "one_hot"
+
+  # Enterprise type
   ENT_TYPE: 
     missing: "most_frequent" 
     preprocessing: "one_hot"
+
+  # Enterprise rank
   ENT_RANK: 
     missing: "mean" 
     preprocessing: None
+
+  # Number of laptops that are more than 3 years old
   ENT_LAPTOP: 
     missing: "most_frequent" 
     preprocessing: "one_hot"
   
 labels:
+  # Laptop purchase liklihood score
   LAPTOP_PLS:
     missing: "most_frequent" 
     preprocessing: None

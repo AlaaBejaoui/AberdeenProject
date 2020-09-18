@@ -119,7 +119,8 @@ class Model:
         assert os.path.isfile(
             outfile_path), f"file {out_file!r} does not exist!"
         command = f"dot -Tpng {outfile_path} -o {outfile_path[:-4]}.png"
-        subprocess.call(command, shell=True)
+        #subprocess.call(command, shell=True)
+
 
     def decisionTreeToPng(self, out_file, feature_names, class_names):
         """
