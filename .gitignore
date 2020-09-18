@@ -1,6 +1,7 @@
 .idea
 .vscode
-AberdeenProject/data
+AberdeenProject/data/*
 !AberdeenProject/data/.gitkeep
-AberdeenProject/pickeledDatadata
-!AberdeenProject/pickeledDatadata/.gitkeep
+AberdeenProject/pickeledData/*
+!AberdeenProject/pickeledData/.gitkeep
+

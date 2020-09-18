@@ -10,6 +10,7 @@ import yaml
 
 import os
 
+
 class DataframeCreator:
     """
     This class contains all methods and attributes needed in order to create a single Pandas dataframe from features and labels
@@ -56,8 +57,7 @@ class DataframeCreator:
         else:
             self.dataframe = collectedData[0]
             try:
-                joinBasedOn = self.config.get(
-                    "dataframeConfig").get("joinBasedOn")
+                joinBasedOn = self.config.get("dataframeConfig").get("joinBasedOn")
             except:
                 for index in range(1, len(collectedData)):
                     self.dataframe = pd.concat(

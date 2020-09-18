@@ -57,7 +57,7 @@ def main():
 
     # Fitting the model
     print('Fitting the model ...')
-    model = Model(data, "decisionTree", max_depth=2)
+    model = Model(data, "decisionTree")
     model.fit()
     print('Building the rules ...')
     model.buildRules("aberdeenData.dot")

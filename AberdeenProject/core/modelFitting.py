@@ -52,7 +52,7 @@ class Model:
         try:
             self.model.fit(self.X, self.y)
         except ValueError:
-            print("Labels type converted to int!")
+            # Labels type converted to int
             self.y = self.y.astype('int')
             self.model.fit(self.X, self.y)
         finally:
@@ -65,7 +65,7 @@ class Model:
         :param cv: Number of folds
         :type cv: Integer
         """
-        
+
         crossValidationScores = self.crossValidationScores(cv)
         scoreMean = np.mean(crossValidationScores)
         scoreVariance = np.var(crossValidationScores)
@@ -84,7 +84,7 @@ class Model:
         try:
             return cross_val_score(self.model, self.X, self.y, cv=cv)
         except:
-            print("Labels type converted to int!")
+            # Labels type converted to int
             self.y = self.y.astype('int')
             return cross_val_score(self.model, self.X, self.y, cv=cv)
 
@@ -106,8 +106,6 @@ class Model:
                              class_names=class_names,
                              filled=True)
 
-    # TODO
-    # Should be fixed in Windows! (working in Linux!)
     def graphvizToPng(self, out_file):
         """
         Graphical rendering of the decision tree rules from the DOT file 
@@ -119,8 +117,12 @@ class Model:
         assert os.path.isfile(
             outfile_path), f"file {out_file!r} does not exist!"
         command = f"dot -Tpng {outfile_path} -o {outfile_path[:-4]}.png"
-        #subprocess.call(command, shell=True)
-
+        try:
+            subprocess.check_call(command, shell=True)
+        except:
+            print(f'Please run the following command in a Linux environment: \n {command}')
+        else:
+            print('Converting the dot file to png completed successfully!')
 
     def decisionTreeToPng(self, out_file, feature_names, class_names):
         """
@@ -133,7 +135,9 @@ class Model:
         :param class_names: Name of the target class
         :type class_names: List
         """
+        print('Creating the dot file ...')
         self.decisionTreeToGraphiz(out_file, feature_names, class_names)
+        print('Converting the dot file to a png file ...')
         self.graphvizToPng(out_file)
 
     def buildRules(self, out_file):

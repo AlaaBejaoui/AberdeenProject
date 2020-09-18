@@ -81,7 +81,8 @@ class MissingValuesPipeline:
         Check whether the full pipeline is initialized with the dataframe.
         """
         assert not (
-            FullPipeline.columns.empty), "You have to initialize the entire pipeline with the data in order to keep the columns names!"
+            FullPipeline.columns.empty), "You have to initialize the entire pipeline with the data in order to keep " \
+                                         "the columns names! "
 
     def addSimpleImputerPipeline(self, column, strategy="most_frequent"):
         """
