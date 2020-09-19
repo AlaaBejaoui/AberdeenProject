@@ -1,15 +1,16 @@
 dirConfig:
-  workingDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject"
-  # workingDir: "/home/linux/Desktop/AberdeenProject"
-  dataDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject\\data"
-
-  # dataDir: "/home/linux/Desktop/AberdeenProject/data"
-  pklDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject\\pickeledData"
-  # pklDir: "/home/linux/Desktop/AberdeenProject/pickledData"
+  # workingDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject"
+  workingDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject"
+  # dataDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject\\data"
+  dataDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject\\data"
+  # pklDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject\\pickeledData"
+  pklDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject\\pickeledData"
 
 fileConfig:
   pickledData_all: "dataframe_all.pkl"
   pickledData_afterThFiltering: "dataframe_kept.pkl"
+  columns_afterThFiltering: "columns_afterThFiltering.txt"
+  columns_afterRFFiltering: "columns_afterRFFiltering.txt" 
 
 dataframeConfig:
   joinBasedOn: "SITEID"

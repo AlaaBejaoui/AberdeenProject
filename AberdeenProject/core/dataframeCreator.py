@@ -91,6 +91,14 @@ class DataframeCreator:
         dataframe.to_pickle(os.path.join(
             pklDir, pickledDataFile))
 
+    def writeColumnsAThFiltering(self, columnsToKeep):
+        
+        columnsFile = self.config.get("fileConfig").get("columns_afterThFiltering")
+        
+        with open(os.path.join("results/", columnsFile), "w") as f:
+            for column in columnsToKeep:
+                f.write(f"{column}\n")
+
     def threshholdFiltering(self):
         """
         This function filters the data based on the value of "threshold" given by the user in the configuration yaml file.
@@ -128,3 +136,6 @@ class DataframeCreator:
 
         self.pickleDataframe(dataframe[columnsToKeep_list], self.config.get(
             "fileConfig").get("pickledData_afterThFiltering"))
+
+        self.writeColumnsAThFiltering(columnsToKeep_list)
+

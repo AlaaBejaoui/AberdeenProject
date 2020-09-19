@@ -1,7 +1,10 @@
 import os
 import subprocess
 import numpy as np
+import pandas as pd
 from sklearn import tree
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import export_text
@@ -57,6 +60,41 @@ class Model:
             self.model.fit(self.X, self.y)
         finally:
             print("Model fitting completed successfully!")
+
+    def keepBestFeatures(self, ratio=0.5):
+        """
+        Extract the best features using Random Forest Classifier
+        """
+
+        randomForest = RandomForestClassifier(n_estimators=100)
+
+        try:
+            randomForest.fit(self.X, self.y)
+        except ValueError:
+            # Labels type converted to int
+            self.y = self.y.astype('int')
+            randomForest.fit(self.X, self.y)
+        finally:
+            print("Random Forest fitting completed successfully!")
+
+        feature_imp = pd.Series(randomForest.feature_importances_, index=self.X.columns).sort_values(ascending=False)
+        
+        feature_ratio = int(len(self.X.columns)*ratio)
+        self.X = self.X[feature_imp[:feature_ratio].index]
+
+        columnsFile = loadConfigFile().get("fileConfig").get("columns_afterRFFiltering")
+        
+        with open(os.path.join("results/", columnsFile), "w") as f:
+            for column in feature_imp[:feature_ratio].index:
+                f.write(f"{column}\n")
+
+    def bestModel(self):
+        parameters = {'max_depth':range(2,10)}
+        clf = GridSearchCV(DecisionTreeClassifier(), parameters, n_jobs=4)
+        clf.fit(X=self.X, y=self.y)
+        tree_model = clf.best_estimator_
+        print (clf.best_score_, clf.best_params_)
+        
 
     def crossValidation(self, cv):
         """

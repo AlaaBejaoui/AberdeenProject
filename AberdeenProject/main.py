@@ -1,5 +1,4 @@
 import os
-
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 import pickle
@@ -57,11 +56,12 @@ def main():
 
     # Fitting the model
     print('Fitting the model ...')
-    model = Model(data, "decisionTree")
+    model = Model(data, "decisionTree", max_depth=6)
+    model.keepBestFeatures()
     model.fit()
+    model.bestModel()
     print('Building the rules ...')
     model.buildRules("aberdeenData.dot")
-
 
 if __name__ == "__main__":
     main()
