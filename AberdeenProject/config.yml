@@ -18,6 +18,9 @@ dataframeConfig:
 missingConfig:
   threshold: 70
 
+randomForest:
+  ratio: 0.5
+
 features:
   # Number of employees
   EMPLE: 

@@ -52,6 +52,10 @@ class Model:
         """
         This function builds the model from the training set (self.X, self.y)
         """
+        
+        optimal_depth = self.bestModel()["max_depth"]
+        self.model.max_depth = optimal_depth
+        
         try:
             self.model.fit(self.X, self.y)
         except ValueError:
@@ -61,7 +65,7 @@ class Model:
         finally:
             print("Model fitting completed successfully!")
 
-    def keepBestFeatures(self, ratio=0.5):
+    def keepBestFeatures(self):
         """
         Extract the best features using Random Forest Classifier
         """
@@ -78,6 +82,8 @@ class Model:
             print("Random Forest fitting completed successfully!")
 
         feature_imp = pd.Series(randomForest.feature_importances_, index=self.X.columns).sort_values(ascending=False)
+
+        ratio = loadConfigFile().get("randomForest").get("ratio")
         
         feature_ratio = int(len(self.X.columns)*ratio)
         self.X = self.X[feature_imp[:feature_ratio].index]
@@ -92,8 +98,10 @@ class Model:
         parameters = {'max_depth':range(2,10)}
         clf = GridSearchCV(DecisionTreeClassifier(), parameters, n_jobs=4)
         clf.fit(X=self.X, y=self.y)
-        tree_model = clf.best_estimator_
-        print (clf.best_score_, clf.best_params_)
+        print(f"Best cross validation score: {clf.best_score_}")
+        print(f"Optimal decision tree depth: {clf.best_score_}")
+        optimal_depth = clf.best_params_
+        return optimal_depth
         
 
     def crossValidation(self, cv):

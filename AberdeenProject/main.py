@@ -59,7 +59,6 @@ def main():
     model = Model(data, "decisionTree", max_depth=6)
     model.keepBestFeatures()
     model.fit()
-    model.bestModel()
     print('Building the rules ...')
     model.buildRules("aberdeenData.dot")
 
