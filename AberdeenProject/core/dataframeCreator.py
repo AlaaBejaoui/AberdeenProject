@@ -13,8 +13,8 @@ import os
 
 class DataframeCreator:
     """
-    This class contains all methods and attributes needed in order to create a single Pandas dataframe from features and labels
-    chosen by the user.
+    This class contains all methods and attributes needed in order to create a single Pandas dataframe from
+    features and labels chosen by the user.
     """
 
     def __init__(self):
@@ -40,11 +40,11 @@ class DataframeCreator:
 
     def createDataframe(self):
         """
-        Every csv-file in the directory "data/" is read and transformed into a Pandas dataframe. After that, all the dataframes
-        are concatenated vertically based on the variable "joinBasedOn" given by the user in the configuration yaml file.
-        To avoid repeating this process everytime the code is run, the dataframe is pickeled and stored as a pickle file
-        in the directory "pickeledData/".
-        This function is parallelized over all available CPUs using the multiprocessing library.
+        Every csv-file in the directory "data/" is read and transformed into a Pandas dataframe. After that,
+        all the dataframes are concatenated vertically based on the variable "joinBasedOn" given by the user
+        in the configuration yaml file. To avoid repeating this process everytime the code is run, the
+        dataframe is pickeled and stored as a pickle file in the directory "pickeledData/". This function is
+        parallelized over all available CPUs using the multiprocessing library.
         """
 
         csvFiles = [f for f in os.listdir(self.config.get("dirConfig").get("dataDir")) if not f.startswith('.')]
@@ -92,8 +92,12 @@ class DataframeCreator:
             pklDir, pickledDataFile))
 
     def writeColumnsAThFiltering(self, columnsToKeep):
+        """
+        This functions writes the features after the threshold filtering to a text file which will be stored
+        in "results/"
+        """
         
-        columnsFile = self.config.get("fileConfig").get("columns_afterThFiltering")
+        columnsFile = self.config.get("fileConfig").get("features_afterThFiltering")
         
         with open(os.path.join("results/", columnsFile), "w") as f:
             for column in columnsToKeep:
@@ -102,8 +106,8 @@ class DataframeCreator:
     def threshholdFiltering(self):
         """
         This function filters the data based on the value of "threshold" given by the user in the configuration yaml file.
-        The entire column will be ignored if the number of missing values exceeds the threshhold.
-        The dataframe after applying the threshhold filtering will be pickled and stored in the directory "pickeledData/".
+        The entire column will be ignored if the number of missing values exceeds the threshhold. The dataframe
+        after applying the threshhold filtering will be pickled and stored in the directory  "pickeledData/".
         """
 
         # Check if the pickle file exists

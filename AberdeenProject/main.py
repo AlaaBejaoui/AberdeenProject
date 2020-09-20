@@ -14,7 +14,8 @@ from utilities.loadConfigFile import loadConfigFile
 
 def main():
     """
-    This function defines the complete workflow, from dataframe generation to rules extraction from decision tree
+    This function defines the complete workflow, from dataframe generation to features extraction up to
+    rules extraction
     """
 
     # Creating the dataframe from csv files
@@ -55,12 +56,14 @@ def main():
     data = fullPipeline.fit_transform(data)
 
     # Fitting the model
-    print('Fitting the model ...')
-    model = Model(data, "decisionTree", max_depth=6)
+    model = Model(data, "decisionTree")
+    print('Extracting the most important features ...')
     model.keepBestFeatures()
+    print('Fitting the model ...')
     model.fit()
     print('Building the rules ...')
-    model.buildRules("aberdeenData.dot")
+    model.buildRules("decisionTree.dot")
+
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>core.modelFitting &mdash; Aberdeen  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> Aberdeen
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CodeFormat.html">Code format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../HowToRun.html">How to run?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Bugs.html">Known Bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Help.html">Need further help?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">AberdeenProject</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Aberdeen</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>core.modelFitting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for core.modelFitting</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">export_text</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">utilities.loadConfigFile</span> <span class="kn">import</span> <span class="n">loadConfigFile</span>
+
+
+<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../core.html#core.modelFitting.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class extracts the most important features from a dataframe and then creates a model that predicts</span>
+<span class="sd">    the value of a target variable by learning simple decision rules inferred from the data features.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Only Decision Tree and Logistic Regression are currently implemented!</span>
+    <span class="n">implemented_algorithms</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;decisionTree&quot;</span><span class="p">,</span> <span class="s2">&quot;logisticRegression&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="o">**</span><span class="n">parameters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class constructor</span>
+
+<span class="sd">        :param dataframe: Pandas dataframe used for the model fitting</span>
+<span class="sd">        :type dataframe: Pandas dataframe</span>
+<span class="sd">        :param algorithm: Algorithm used to fit the data</span>
+<span class="sd">        :type algorithm: String</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span> <span class="o">:=</span> <span class="nb">list</span><span class="p">(</span><span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;labels&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                   <span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Only model fitting for one label is currently implemented!&quot;</span>
+        <span class="n">labelName</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">columns</span> <span class="o">!=</span> <span class="n">labelName</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="n">labelName</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;DataFrame&quot;</span><span class="p">,</span> <span class="s2">&quot;Features matrix must be a Pandas dataframe!&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;Series&quot;</span><span class="p">,</span> <span class="s2">&quot;Label must be a Pandas serie!&quot;</span>
+
+        <span class="k">assert</span> <span class="n">algorithm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">implemented_algorithms</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">algorithm</span><span class="si">}</span><span class="s2"> not yet implemented!&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">algorithm</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">==</span> <span class="s2">&quot;decisionTree&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="o">**</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">==</span> <span class="s2">&quot;logisticRegression&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="o">**</span><span class="n">parameters</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Model.fit"><a class="viewcode-back" href="../../core.html#core.modelFitting.Model.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function builds the model from the training set (self.X, self.y). If the chosen algorithm</span>
+<span class="sd">        is Decision Tree, then the optimal depth from the function &quot;bestModel&quot; will be used</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">==</span> <span class="s2">&quot;decisionTree&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Finding the optimal depth for the decision tree ...&#39;</span><span class="p">)</span>
+            <span class="n">optimal_depth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bestModel</span><span class="p">()[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">max_depth</span> <span class="o">=</span> <span class="n">optimal_depth</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="c1"># Labels type converted to int</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model fitting completed successfully!&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.keepBestFeatures"><a class="viewcode-back" href="../../core.html#core.modelFitting.Model.keepBestFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">keepBestFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function extracts the best features from the user defined dataframe using Random Forest Classifier</span>
+<span class="sd">        and writes the resulting features to a text file which will be stored in &quot;results/&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">randomForest</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">randomForest</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="c1"># Labels type converted to int</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+            <span class="n">randomForest</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Random Forest fitting completed successfully!&quot;</span><span class="p">)</span>
+
+        <span class="n">feature_imp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">randomForest</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">ratio</span> <span class="o">=</span> <span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;randomForest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ratio&quot;</span><span class="p">)</span>
+        
+        <span class="n">feature_ratio</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">*</span><span class="n">ratio</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">feature_imp</span><span class="p">[:</span><span class="n">feature_ratio</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+
+        <span class="n">columnsFile</span> <span class="o">=</span> <span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fileConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;features_afterRFFiltering&quot;</span><span class="p">)</span>
+        
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;results/&quot;</span><span class="p">,</span> <span class="n">columnsFile</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">feature_imp</span><span class="p">[:</span><span class="n">feature_ratio</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.bestModel"><a class="viewcode-back" href="../../core.html#core.modelFitting.Model.bestModel">[docs]</a>    <span class="k">def</span> <span class="nf">bestModel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function finds the optimal depth for the decision tree model by function for fitting trees of</span>
+<span class="sd">        various depths on the training data and choosing the optimal depth using cross-validation</span>
+<span class="sd">        :return: Optimal decision tree depth</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">)}</span>
+        <span class="n">clf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">DecisionTreeClassifier</span><span class="p">(),</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best cross validation score: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">best_score_</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal decision tree depth: </span><span class="si">{</span><span class="n">clf</span><span class="o">.</span><span class="n">best_params_</span><span class="p">[</span><span class="s1">&#39;max_depth&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">optimal_depth</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">best_params_</span>
+        <span class="k">return</span> <span class="n">optimal_depth</span></div>
+
+<div class="viewcode-block" id="Model.crossValidation"><a class="viewcode-back" href="../../core.html#core.modelFitting.Model.crossValidation">[docs]</a>    <span class="k">def</span> <span class="nf">crossValidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cv</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function reports the performance measure by k-fold cross-validation</span>
+
+<span class="sd">        :param cv: Number of folds</span>
+<span class="sd">        :type cv: Integer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">crossValidationScores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crossValidationScores</span><span class="p">(</span><span class="n">cv</span><span class="p">)</span>
+        <span class="n">scoreMean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">crossValidationScores</span><span class="p">)</span>
+        <span class="n">scoreVariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">crossValidationScores</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Cross validation mean: </span><span class="si">{</span><span class="n">scoreMean</span><span class="si">}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">Cross validation variance: </span><span class="si">{</span><span class="n">scoreVariance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.crossValidationScores"><a class="viewcode-back" href="../../core.html#core.modelFitting.Model.crossValidationScores">[docs]</a>    <span class="k">def</span> <span class="nf">crossValidationScores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cv</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function evaluates a score by cross-validation</span>
+
+<span class="sd">        :param cv: Number of folds</span>
+<span class="sd">        :type cv: Integer</span>
+<span class="sd">        :return: Cross validation scores</span>
+<span class="sd">        :rtype: List</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="c1"># Labels type converted to int</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.decisionTreeToGraphiz"><a class="viewcode-back" href="../../core.html#core.modelFitting.Model.decisionTreeToGraphiz">[docs]</a>    <span class="k">def</span> <span class="nf">decisionTreeToGraphiz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">class_names</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function generates a GraphViz representation of the decision tree in DOT format</span>
+
+<span class="sd">        :param out_file: Name of the output file</span>
+<span class="sd">        :type out_file: String</span>
+<span class="sd">        :param feature_names: Names of each of the features</span>
+<span class="sd">        :type feature_names: List</span>
+<span class="sd">        :param class_names: Name of the target class</span>
+<span class="sd">        :type class_names: List</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tree</span><span class="o">.</span><span class="n">export_graphviz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+                             <span class="n">out_file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;results/&quot;</span><span class="p">,</span> <span class="n">out_file</span><span class="p">),</span>
+                             <span class="n">feature_names</span><span class="o">=</span><span class="n">feature_names</span><span class="p">,</span>
+                             <span class="n">class_names</span><span class="o">=</span><span class="n">class_names</span><span class="p">,</span>
+                             <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.graphvizToPng"><a class="viewcode-back" href="../../core.html#core.modelFitting.Model.graphvizToPng">[docs]</a>    <span class="k">def</span> <span class="nf">graphvizToPng</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Graphical rendering of the decision tree rules from the DOT file </span>
+
+<span class="sd">        :param out_file: Name of the output file</span>
+<span class="sd">        :type out_file: String</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">outfile_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;results/&quot;</span><span class="p">,</span> <span class="n">out_file</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span>
+            <span class="n">outfile_path</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;file </span><span class="si">{</span><span class="n">out_file</span><span class="si">!r}</span><span class="s2"> does not exist!&quot;</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;dot -Tpng </span><span class="si">{</span><span class="n">outfile_path</span><span class="si">}</span><span class="s2"> -o </span><span class="si">{</span><span class="n">outfile_path</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span><span class="si">}</span><span class="s2">.png&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Please run the following command in a Linux environment: </span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Converting the dot file to png completed successfully!&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.decisionTreeToPng"><a class="viewcode-back" href="../../core.html#core.modelFitting.Model.decisionTreeToPng">[docs]</a>    <span class="k">def</span> <span class="nf">decisionTreeToPng</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">class_names</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function wraps up self.decisionTreeToGraphiz and self.graphvizToPng</span>
+
+<span class="sd">        :param out_file: Name of the output file</span>
+<span class="sd">        :type out_file: String</span>
+<span class="sd">        :param feature_names: Names of each of the features</span>
+<span class="sd">        :type feature_names: List</span>
+<span class="sd">        :param class_names: Name of the target class</span>
+<span class="sd">        :type class_names: List</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decisionTreeToGraphiz</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">class_names</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graphvizToPng</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.buildRules"><a class="viewcode-back" href="../../core.html#core.modelFitting.Model.buildRules">[docs]</a>    <span class="k">def</span> <span class="nf">buildRules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function exports decision tree rules to an image that can be interpreted by the user </span>
+
+<span class="sd">        :param out_file: Name of the output file</span>
+<span class="sd">        :type out_file: String</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">feature_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span>
+        <span class="n">class_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">ele</span><span class="p">)</span> <span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">unique</span><span class="p">())]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decisionTreeToPng</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">class_names</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot; </span>
+<span class="s2">        algorithm: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span><span class="si">!r}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"></span>
+<span class="s2">        features: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="si">!r}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span>
+<span class="s2">        labels: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span><span class="si">!r}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">summary</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Alaa Bejaoui, Maha Badri
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

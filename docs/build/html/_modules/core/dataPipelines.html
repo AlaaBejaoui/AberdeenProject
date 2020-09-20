@@ -1,0 +1,410 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>core.dataPipelines &mdash; Aberdeen  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> Aberdeen
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CodeFormat.html">Code format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../HowToRun.html">How to run?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Bugs.html">Known Bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Help.html">Need further help?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">AberdeenProject</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Aberdeen</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>core.dataPipelines</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for core.dataPipelines</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arange</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">FeatureUnion</span>
+<span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">ColumnTransformer</span>
+<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span> <span class="nn">utilities.loadConfigFile</span> <span class="kn">import</span> <span class="n">loadConfigFile</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+
+
+<div class="viewcode-block" id="FullPipeline"><a class="viewcode-back" href="../../core.html#core.dataPipelines.FullPipeline">[docs]</a><span class="k">class</span> <span class="nc">FullPipeline</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class chains multiple pipelines (the missing values pipeline, the preprocessing pipeline, ...)</span>
+<span class="sd">    into one single pipeline.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pipelines</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">columns</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="FullPipeline.initialize"><a class="viewcode-back" href="../../core.html#core.dataPipelines.FullPipeline.initialize">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function initializes the full pipeline with the Pandas dataframe.</span>
+<span class="sd">        The column names will be stored as a class attribute and then recovered when needed.</span>
+<span class="sd">        :param data: Pandas dataframe needed for the initialization</span>
+<span class="sd">        :type data: Pandas Dataframe</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_recoverColumnsNames</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function returns the column names of the Pandas dataframe</span>
+<span class="sd">        :return: Column names of the Pandas dataframe</span>
+<span class="sd">        :rtype: List</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">columns</span>
+
+<div class="viewcode-block" id="FullPipeline.addPipeline"><a class="viewcode-back" href="../../core.html#core.dataPipelines.FullPipeline.addPipeline">[docs]</a>    <span class="k">def</span> <span class="nf">addPipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function adds a given pipeline to the full pipeline</span>
+<span class="sd">        :param pipeline: Data pipeline to be added the full pipeline</span>
+<span class="sd">        :type pipeline: Pipeline</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">pipelines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FullPipeline.fit_transform"><a class="viewcode-back" href="../../core.html#core.dataPipelines.FullPipeline.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function feeds the data to the full pipeline</span>
+<span class="sd">        :param data: Pandas dataframe to be transformed</span>
+<span class="sd">        :type data: Pandas dataframe</span>
+<span class="sd">        :return: Transformed Pandas dataframe</span>
+<span class="sd">        :rtype: Pandas dataframe</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">pipeline</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">pipelines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">PreprocessingPipeline</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pipeline</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">_recoverColumnsNames</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">data</span></div></div>
+
+
+<div class="viewcode-block" id="MissingValuesPipeline"><a class="viewcode-back" href="../../core.html#core.dataPipelines.MissingValuesPipeline">[docs]</a><span class="k">class</span> <span class="nc">MissingValuesPipeline</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class provides a pipeline for completing missing values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">allowed_strategies</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;median&quot;</span><span class="p">,</span> <span class="s2">&quot;most_frequent&quot;</span><span class="p">,</span> <span class="s2">&quot;constant&quot;</span><span class="p">)</span>
+
+    <span class="n">pipelines</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check whether the full pipeline is initialized with the dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="n">FullPipeline</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">empty</span><span class="p">),</span> <span class="s2">&quot;You have to initialize the entire pipeline with the data in order to keep &quot;</span> \
+                                         <span class="s2">&quot;the columns names! &quot;</span>
+
+<div class="viewcode-block" id="MissingValuesPipeline.addSimpleImputerPipeline"><a class="viewcode-back" href="../../core.html#core.dataPipelines.MissingValuesPipeline.addSimpleImputerPipeline">[docs]</a>    <span class="k">def</span> <span class="nf">addSimpleImputerPipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;most_frequent&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function provides basic strategies for imputing missing values that can be imputed with a provided</span>
+<span class="sd">        constant value, or using the statistics (mean, median or most frequent) of a column in which the</span>
+<span class="sd">        missing values are located.</span>
+<span class="sd">        :param column: Column of the Pandas dataframe</span>
+<span class="sd">        :type column: String</span>
+<span class="sd">        :param strategy: Strategy of the imputation, defaults to &quot;most_frequent&quot;</span>
+<span class="sd">        :type strategy: String, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">allowed_strategies</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">strategy</span><span class="si">}</span><span class="s2">: Unknown imputation strategy!&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">pipelines</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+            <span class="p">[(</span><span class="s2">&quot;fillna&quot;</span><span class="p">,</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="n">strategy</span><span class="p">,</span> <span class="n">missing_values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">)),</span> <span class="p">])</span></div>
+
+<div class="viewcode-block" id="MissingValuesPipeline.buildPipeline"><a class="viewcode-back" href="../../core.html#core.dataPipelines.MissingValuesPipeline.buildPipeline">[docs]</a>    <span class="k">def</span> <span class="nf">buildPipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function builds the missing values pipeline and prepares it to be fed with the Pandas dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pickleDir</span> <span class="o">=</span> <span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dirConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pklDir&quot;</span><span class="p">)</span>
+        <span class="n">pickleFile</span> <span class="o">=</span> <span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fileConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pickledData_afterThFiltering&quot;</span><span class="p">)</span>
+        <span class="n">filePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pickleDir</span><span class="p">,</span> <span class="n">pickleFile</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">featureOrLabel</span><span class="p">,</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span><span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                                              <span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;labels&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">featureOrLabel</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">addSimpleImputerPipeline</span><span class="p">(</span><span class="n">featureOrLabel</span><span class="p">,</span> <span class="n">strategy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;missing&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MissingValuesPipeline.fit_transform"><a class="viewcode-back" href="../../core.html#core.dataPipelines.MissingValuesPipeline.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">remainder</span><span class="o">=</span><span class="s2">&quot;passthrough&quot;</span><span class="p">,</span> <span class="n">parallelize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit to data, then transform it</span>
+<span class="sd">        :param dataframe: Pandas dataframe to be passed through the missing values pipeline</span>
+<span class="sd">        :type dataframe: Pandas dataframe</span>
+<span class="sd">        :param remainder: By specifying remainder=&#39;passthrough&#39;, all remaining columns that were not</span>
+<span class="sd">        specified in transformers will be automatically passed through. Otherweise, non-specified columns</span>
+<span class="sd">        are dropped, defaults to &quot;passthrough&quot;</span>
+<span class="sd">        :type remainder: String, optional</span>
+<span class="sd">        :param parallelize: Parallelize the job using all processors, defaults to True</span>
+<span class="sd">        :type parallelize: Boolean, optional</span>
+<span class="sd">        :return: Pandas dataframe without missing values</span>
+<span class="sd">        :rtype: Pandas dataframe</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">parallelize</span><span class="p">:</span>
+            <span class="n">n_jobs</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="n">columnTransformer</span> <span class="o">=</span> <span class="n">ColumnTransformer</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="p">[</span><span class="n">column</span><span class="p">])</span> <span class="k">for</span> <span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">pipelines</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">],</span> <span class="n">remainder</span><span class="o">=</span><span class="n">remainder</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">)</span>
+
+        <span class="n">transformedData</span> <span class="o">=</span> <span class="n">columnTransformer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">transformedData</span></div></div>
+
+
+<div class="viewcode-block" id="PreprocessingPipeline"><a class="viewcode-back" href="../../core.html#core.dataPipelines.PreprocessingPipeline">[docs]</a><span class="k">class</span> <span class="nc">PreprocessingPipeline</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class provides a pipeline for data preprocessing like one-hot encoding.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">allowed_strategies</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;one_hot&quot;</span><span class="p">,</span> <span class="s2">&quot;None&quot;</span><span class="p">)</span>
+
+    <span class="n">pipelines</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check whether the full pipeline is initialized with the dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="n">FullPipeline</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">empty</span><span class="p">),</span> <span class="s2">&quot;You have to initialize the entire pipeline with the data in order to keep the columns names!&quot;</span>
+
+<div class="viewcode-block" id="PreprocessingPipeline.addOnehotEncoderPipeline"><a class="viewcode-back" href="../../core.html#core.dataPipelines.PreprocessingPipeline.addOnehotEncoderPipeline">[docs]</a>    <span class="k">def</span> <span class="nf">addOnehotEncoderPipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Encode categorical feature as a one-hot numeric array</span>
+<span class="sd">        :param column: Column of the Pandas dataframe</span>
+<span class="sd">        :type column: String</span>
+<span class="sd">        :param strategy: Preprocessing strategy, defaults to None</span>
+<span class="sd">        :type strategy: String or None, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">allowed_strategies</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">strategy</span><span class="si">}</span><span class="s2">: Unknown strategy!&quot;</span>
+
+        <span class="k">if</span> <span class="n">strategy</span> <span class="o">!=</span> <span class="s2">&quot;None&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">pipelines</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">prefix</span><span class="o">=</span><span class="n">column</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">pipelines</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="PreprocessingPipeline.buildPipeline"><a class="viewcode-back" href="../../core.html#core.dataPipelines.PreprocessingPipeline.buildPipeline">[docs]</a>    <span class="k">def</span> <span class="nf">buildPipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function builds the preprocessing pipeline and prepares it to be fed with the Pandas dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pickleDir</span> <span class="o">=</span> <span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dirConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pklDir&quot;</span><span class="p">)</span>
+        <span class="n">pickleFile</span> <span class="o">=</span> <span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fileConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pickledData_afterThFiltering&quot;</span><span class="p">)</span>
+        <span class="n">filePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pickleDir</span><span class="p">,</span> <span class="n">pickleFile</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">featureOrLabel</span><span class="p">,</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span><span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                                              <span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;labels&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+
+            <span class="k">if</span> <span class="n">featureOrLabel</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">addOnehotEncoderPipeline</span><span class="p">(</span><span class="n">featureOrLabel</span><span class="p">,</span> <span class="n">strategy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;preprocessing&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="PreprocessingPipeline.fit_transform"><a class="viewcode-back" href="../../core.html#core.dataPipelines.PreprocessingPipeline.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit to data, then transform it</span>
+<span class="sd">        :param dataframe: Pandas dataframe to be passed through the preprocessing pipeline</span>
+<span class="sd">        :type dataframe: Pandas dataframe</span>
+<span class="sd">        :return: Transformed Pandas dataframe</span>
+<span class="sd">        :rtype: Pandas dataframe</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">dataframe</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;DataFrame&quot;</span><span class="p">,</span> <span class="s2">&quot;Only working with pandas dataframe!&quot;</span>
+
+        <span class="n">onehot_dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">pipeline</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">pipelines</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">pipeline</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">onehot_dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">onehot_dataframe</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">onehot_dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">onehot_dataframe</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">[</span><span class="n">column</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">onehot_dataframe</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Alaa Bejaoui, Maha Badri
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

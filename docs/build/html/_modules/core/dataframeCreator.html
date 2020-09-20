@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>core.dataframeCreator &mdash; Aberdeen  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> Aberdeen
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CodeFormat.html">Code format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../HowToRun.html">How to run?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Bugs.html">Known Bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Help.html">Need further help?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">AberdeenProject</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Aberdeen</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>core.dataframeCreator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for core.dataframeCreator</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">utilities.statistics</span> <span class="kn">import</span> <span class="n">Statistics</span>
+<span class="kn">from</span> <span class="nn">utilities.loadPickledData</span> <span class="kn">import</span> <span class="n">loadPickledData</span>
+<span class="kn">from</span> <span class="nn">utilities.loadConfigFile</span> <span class="kn">import</span> <span class="n">loadConfigFile</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<div class="viewcode-block" id="DataframeCreator"><a class="viewcode-back" href="../../core.html#core.dataframeCreator.DataframeCreator">[docs]</a><span class="k">class</span> <span class="nc">DataframeCreator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class contains all methods and attributes needed in order to create a single Pandas dataframe from</span>
+<span class="sd">    features and labels chosen by the user.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The constructor of this class loads the needed variables from the configuration yaml file</span>
+<span class="sd">        and creates an empty Pandas dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">loadConfigFile</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DataframeCreator.readCsvFile"><a class="viewcode-back" href="../../core.html#core.dataframeCreator.DataframeCreator.readCsvFile">[docs]</a>    <span class="k">def</span> <span class="nf">readCsvFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A wrapper function to wrap the read_csv function from Pandas</span>
+<span class="sd">        :param file: Path to the csv-file to be read</span>
+<span class="sd">        :type file: String</span>
+<span class="sd">        :return: The csv-file is returned as two-dimensional data structure with labeled axes.</span>
+<span class="sd">        :rtype: Pandas dataframe</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">dataDir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dirConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dataDir&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dataDir</span><span class="p">,</span> <span class="n">file</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataframeCreator.createDataframe"><a class="viewcode-back" href="../../core.html#core.dataframeCreator.DataframeCreator.createDataframe">[docs]</a>    <span class="k">def</span> <span class="nf">createDataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Every csv-file in the directory &quot;data/&quot; is read and transformed into a Pandas dataframe. After that,</span>
+<span class="sd">        all the dataframes are concatenated vertically based on the variable &quot;joinBasedOn&quot; given by the user</span>
+<span class="sd">        in the configuration yaml file. To avoid repeating this process everytime the code is run, the</span>
+<span class="sd">        dataframe is pickeled and stored as a pickle file in the directory &quot;pickeledData/&quot;. This function is</span>
+<span class="sd">        parallelized over all available CPUs using the multiprocessing library.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">csvFiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dirConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dataDir&quot;</span><span class="p">))</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)]</span>
+
+        <span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">csvFiles</span><span class="p">))</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+            <span class="n">collectedData</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">readCsvFile</span><span class="p">,</span> <span class="n">csvFiles</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">collectedData</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span> <span class="o">=</span> <span class="n">collectedData</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span> <span class="o">=</span> <span class="n">collectedData</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">joinBasedOn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dataframeConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;joinBasedOn&quot;</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">collectedData</span><span class="p">)):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                        <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">collectedData</span><span class="p">[</span><span class="n">index</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">collectedData</span><span class="p">)):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+                        <span class="n">collectedData</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">joinBasedOn</span><span class="p">])</span>
+
+        <span class="c1"># Remove duplicated columns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span>
+                                            <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pickleDataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;fileConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pickledData_all&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="DataframeCreator.pickleDataframe"><a class="viewcode-back" href="../../core.html#core.dataframeCreator.DataframeCreator.pickleDataframe">[docs]</a>    <span class="k">def</span> <span class="nf">pickleDataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">pickledDataFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function saves a given Pandas dataframe as a pickle file</span>
+<span class="sd">        :param dataframe: Pandas dataframe to be saved</span>
+<span class="sd">        :type dataframe: Pandas dataframe</span>
+<span class="sd">        :param pickledDataFile: Path to the desired location of the pickle file</span>
+<span class="sd">        :type pickledDataFile: String</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">isempty</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">empty</span>
+        <span class="k">assert</span> <span class="ow">not</span><span class="p">(</span>
+            <span class="n">isempty</span><span class="p">),</span> <span class="s2">&quot;Dataframe is empty! You must call createDataframe()!&quot;</span>
+
+        <span class="n">pklDir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dirConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pklDir&quot;</span><span class="p">)</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">pklDir</span><span class="p">,</span> <span class="n">pickledDataFile</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="DataframeCreator.writeColumnsAThFiltering"><a class="viewcode-back" href="../../core.html#core.dataframeCreator.DataframeCreator.writeColumnsAThFiltering">[docs]</a>    <span class="k">def</span> <span class="nf">writeColumnsAThFiltering</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columnsToKeep</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This functions writes the features after the threshold filtering to a text file which will be stored</span>
+<span class="sd">        in &quot;results/&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">columnsFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fileConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;features_afterThFiltering&quot;</span><span class="p">)</span>
+        
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;results/&quot;</span><span class="p">,</span> <span class="n">columnsFile</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">columnsToKeep</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataframeCreator.threshholdFiltering"><a class="viewcode-back" href="../../core.html#core.dataframeCreator.DataframeCreator.threshholdFiltering">[docs]</a>    <span class="k">def</span> <span class="nf">threshholdFiltering</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function filters the data based on the value of &quot;threshold&quot; given by the user in the configuration yaml file.</span>
+<span class="sd">        The entire column will be ignored if the number of missing values exceeds the threshhold. The dataframe</span>
+<span class="sd">        after applying the threshhold filtering will be pickled and stored in the directory  &quot;pickeledData/&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if the pickle file exists</span>
+        <span class="n">pklDir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dirConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pklDir&quot;</span><span class="p">)</span>
+        <span class="n">pickledDataFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fileConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pickledData_all&quot;</span><span class="p">)</span>
+        <span class="n">exist</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pklDir</span><span class="p">,</span> <span class="n">pickledDataFile</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="n">exist</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;No dataframe found in </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pklDir</span><span class="p">,</span> <span class="n">pickledDataFile</span><span class="p">)</span><span class="si">}</span><span class="s2">!&quot;</span>
+
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">loadPickledData</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pklDir</span><span class="p">,</span> <span class="n">pickledDataFile</span><span class="p">))</span>
+
+        <span class="n">columnsToKeep_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">statistics</span> <span class="o">=</span> <span class="n">Statistics</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">pklDir</span><span class="p">,</span> <span class="n">pickledDataFile</span><span class="p">))</span><span class="o">.</span><span class="n">getColumnsStatistics</span><span class="p">()</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;missingConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;threshold&quot;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span><span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">loadConfigFile</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;labels&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">column</span> <span class="o">=</span> <span class="n">column</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># Check threshhold</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">missingProp</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                    <span class="n">statistics</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">statistics</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isnull</span><span class="p">()])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># No missing values found</span>
+                <span class="n">columnsToKeep_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Missing values found</span>
+                <span class="c1"># If the missing values ratio is smaller than the defined threshhold, the column</span>
+                <span class="c1"># will be kept, and dropped otherweise</span>
+                <span class="k">if</span> <span class="n">missingProp</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">:</span>
+                    <span class="n">columnsToKeep_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pickleDataframe</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="n">columnsToKeep_list</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;fileConfig&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pickledData_afterThFiltering&quot;</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeColumnsAThFiltering</span><span class="p">(</span><span class="n">columnsToKeep_list</span><span class="p">)</span></div></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Alaa Bejaoui, Maha Badri
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

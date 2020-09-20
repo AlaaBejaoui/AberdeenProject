@@ -14,11 +14,11 @@ from utilities.loadConfigFile import loadConfigFile
 
 class Model:
     """
-    This class creates a model that predicts the value of a target variable by learning simple decision rules 
-    inferred from the data features.
+    This class extracts the most important features from a dataframe and then creates a model that predicts
+    the value of a target variable by learning simple decision rules inferred from the data features.
     """
 
-    # Only Decision Tree and Logistic Regression are currently implemented!   
+    # Only Decision Tree and Logistic Regression are currently implemented!
     implemented_algorithms = ("decisionTree", "logisticRegression")
 
     def __init__(self, dataframe, algorithm, **parameters):
@@ -50,12 +50,15 @@ class Model:
 
     def fit(self):
         """
-        This function builds the model from the training set (self.X, self.y)
+        This function builds the model from the training set (self.X, self.y). If the chosen algorithm
+        is Decision Tree, then the optimal depth from the function "bestModel" will be used
         """
-        
-        optimal_depth = self.bestModel()["max_depth"]
-        self.model.max_depth = optimal_depth
-        
+
+        if self.algorithm == "decisionTree":
+            print('Finding the optimal depth for the decision tree ...')
+            optimal_depth = self.bestModel()["max_depth"]
+            self.model.max_depth = optimal_depth
+
         try:
             self.model.fit(self.X, self.y)
         except ValueError:
@@ -67,7 +70,8 @@ class Model:
 
     def keepBestFeatures(self):
         """
-        Extract the best features using Random Forest Classifier
+        This function extracts the best features from the user defined dataframe using Random Forest Classifier
+        and writes the resulting features to a text file which will be stored in "results/"
         """
 
         randomForest = RandomForestClassifier(n_estimators=100)
@@ -88,21 +92,26 @@ class Model:
         feature_ratio = int(len(self.X.columns)*ratio)
         self.X = self.X[feature_imp[:feature_ratio].index]
 
-        columnsFile = loadConfigFile().get("fileConfig").get("columns_afterRFFiltering")
+        columnsFile = loadConfigFile().get("fileConfig").get("features_afterRFFiltering")
         
         with open(os.path.join("results/", columnsFile), "w") as f:
             for column in feature_imp[:feature_ratio].index:
                 f.write(f"{column}\n")
 
     def bestModel(self):
+        """
+        This function finds the optimal depth for the decision tree model by function for fitting trees of
+        various depths on the training data and choosing the optimal depth using cross-validation
+        :return: Optimal decision tree depth
+        """
+
         parameters = {'max_depth':range(2,10)}
         clf = GridSearchCV(DecisionTreeClassifier(), parameters, n_jobs=4)
         clf.fit(X=self.X, y=self.y)
-        print(f"Best cross validation score: {clf.best_score_}")
-        print(f"Optimal decision tree depth: {clf.best_score_}")
+        print(f"Best cross validation score: {np.round(clf.best_score_, 1)*100} %")
+        print(f"Optimal decision tree depth: {clf.best_params_['max_depth']}")
         optimal_depth = clf.best_params_
         return optimal_depth
-        
 
     def crossValidation(self, cv):
         """
@@ -181,9 +190,7 @@ class Model:
         :param class_names: Name of the target class
         :type class_names: List
         """
-        print('Creating the dot file ...')
         self.decisionTreeToGraphiz(out_file, feature_names, class_names)
-        print('Converting the dot file to a png file ...')
         self.graphvizToPng(out_file)
 
     def buildRules(self, out_file):

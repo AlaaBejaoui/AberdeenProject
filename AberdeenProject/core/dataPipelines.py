@@ -86,8 +86,9 @@ class MissingValuesPipeline:
 
     def addSimpleImputerPipeline(self, column, strategy="most_frequent"):
         """
-        This function provides basic strategies for imputing missing values that can be imputed with a provided constant value, or using
-        the statistics (mean, median or most frequent) of a column in which the missing values are located.
+        This function provides basic strategies for imputing missing values that can be imputed with a provided
+        constant value, or using the statistics (mean, median or most frequent) of a column in which the
+        missing values are located.
         :param column: Column of the Pandas dataframe
         :type column: String
         :param strategy: Strategy of the imputation, defaults to "most_frequent"
@@ -118,7 +119,9 @@ class MissingValuesPipeline:
         Fit to data, then transform it
         :param dataframe: Pandas dataframe to be passed through the missing values pipeline
         :type dataframe: Pandas dataframe
-        :param remainder: By specifying remainder='passthrough', all remaining columns that were not specified in transformers will be automatically passed through. Otherweise, non-specified columns are dropped, defaults to "passthrough"
+        :param remainder: By specifying remainder='passthrough', all remaining columns that were not
+        specified in transformers will be automatically passed through. Otherweise, non-specified columns
+        are dropped, defaults to "passthrough"
         :type remainder: String, optional
         :param parallelize: Parallelize the job using all processors, defaults to True
         :type parallelize: Boolean, optional
