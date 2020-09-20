@@ -26,6 +26,7 @@ class FullPipeline:
         """
         This function initializes the full pipeline with the Pandas dataframe.
         The column names will be stored as a class attribute and then recovered when needed.
+
         :param data: Pandas dataframe needed for the initialization
         :type data: Pandas Dataframe
         """
@@ -35,6 +36,7 @@ class FullPipeline:
     def _recoverColumnsNames(cls):
         """
         This function returns the column names of the Pandas dataframe
+
         :return: Column names of the Pandas dataframe
         :rtype: List
         """
@@ -43,6 +45,7 @@ class FullPipeline:
     def addPipeline(self, pipeline):
         """
         This function adds a given pipeline to the full pipeline
+
         :param pipeline: Data pipeline to be added the full pipeline
         :type pipeline: Pipeline
         """
@@ -51,6 +54,7 @@ class FullPipeline:
     def fit_transform(self, data):
         """
         This function feeds the data to the full pipeline
+
         :param data: Pandas dataframe to be transformed
         :type data: Pandas dataframe
         :return: Transformed Pandas dataframe
@@ -89,6 +93,7 @@ class MissingValuesPipeline:
         This function provides basic strategies for imputing missing values that can be imputed with a provided
         constant value, or using the statistics (mean, median or most frequent) of a column in which the
         missing values are located.
+
         :param column: Column of the Pandas dataframe
         :type column: String
         :param strategy: Strategy of the imputation, defaults to "most_frequent"
@@ -117,6 +122,7 @@ class MissingValuesPipeline:
     def fit_transform(self, dataframe, remainder="passthrough", parallelize=True):
         """
         Fit to data, then transform it
+
         :param dataframe: Pandas dataframe to be passed through the missing values pipeline
         :type dataframe: Pandas dataframe
         :param remainder: By specifying remainder='passthrough', all remaining columns that were not
@@ -161,6 +167,7 @@ class PreprocessingPipeline:
     def addOnehotEncoderPipeline(self, column, strategy=None):
         """
         Encode categorical feature as a one-hot numeric array
+
         :param column: Column of the Pandas dataframe
         :type column: String
         :param strategy: Preprocessing strategy, defaults to None
@@ -192,6 +199,7 @@ class PreprocessingPipeline:
     def fit_transform(self, dataframe):
         """
         Fit to data, then transform it
+
         :param dataframe: Pandas dataframe to be passed through the preprocessing pipeline
         :type dataframe: Pandas dataframe
         :return: Transformed Pandas dataframe

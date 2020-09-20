@@ -102,7 +102,9 @@ class Model:
         """
         This function finds the optimal depth for the decision tree model by function for fitting trees of
         various depths on the training data and choosing the optimal depth using cross-validation
+
         :return: Optimal decision tree depth
+        :rtype: Integer
         """
 
         parameters = {'max_depth':range(2,10)}

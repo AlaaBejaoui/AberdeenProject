@@ -29,6 +29,7 @@ class DataframeCreator:
     def readCsvFile(self, file):
         """
         A wrapper function to wrap the read_csv function from Pandas
+
         :param file: Path to the csv-file to be read
         :type file: String
         :return: The csv-file is returned as two-dimensional data structure with labeled axes.
@@ -77,6 +78,7 @@ class DataframeCreator:
     def pickleDataframe(self, dataframe, pickledDataFile):
         """
         This function saves a given Pandas dataframe as a pickle file
+
         :param dataframe: Pandas dataframe to be saved
         :type dataframe: Pandas dataframe
         :param pickledDataFile: Path to the desired location of the pickle file
