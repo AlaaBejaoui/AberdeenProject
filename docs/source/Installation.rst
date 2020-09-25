@@ -16,11 +16,8 @@ We recommend using Anaconda to create the virtual environment with all the libra
 to run the code. Anaconda is a library that includes Python and many useful packages for Python, as well as an
 environment manager called conda that makes package management simple.
 
-Follow the installation instructions for Anaconda here_.
-
-.. _here: https://docs.continuum.io/anaconda/install/
-
-Then create a conda environment from the yaml file *environment.yml* as follows
+Follow the installation instructions for Anaconda `here <https://docs.continuum.io/anaconda/install/>`__. Then create a
+conda environment from the yaml file *environment.yml* as follows
 
 .. parsed-literal::
 
