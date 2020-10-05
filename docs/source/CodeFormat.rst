@@ -1,10 +1,10 @@
 Code format
 ===========
 
-Folder structure
+Overview
 -----------------
 
-The implementation in this project adheres to a standard template. Here is the folder structure of the Aberdeen
+The implementation in this project adheres to a standard template. You can find below the folder structure of the Aberdeen
 project
 
 |   **AberdeenProject**
@@ -24,6 +24,9 @@ project
 |   ├── *readthedocs.yml*
 |   └── *requirements.txt*
 |
+
+Folder structure
+-----------------
 
 In the folder structure above:
 
