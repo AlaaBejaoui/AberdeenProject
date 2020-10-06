@@ -87,7 +87,7 @@ class Model:
 
         feature_imp = pd.Series(randomForest.feature_importances_, index=self.X.columns).sort_values(ascending=False)
 
-        ratio = loadConfigFile().get("randomForest").get("ratio")
+        ratio = loadConfigFile().get("randomForestConfig").get("ratio")
         
         feature_ratio = int(len(self.X.columns)*ratio)
         self.X = self.X[feature_imp[:feature_ratio].index]
@@ -161,7 +161,9 @@ class Model:
                              out_file=os.path.join("results/", out_file),
                              feature_names=feature_names,
                              class_names=class_names,
-                             filled=True)
+                             filled=True,
+                             max_depth=4,
+                             impurity=False)
 
     def graphvizToPng(self, out_file):
         """

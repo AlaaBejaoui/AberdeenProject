@@ -184,9 +184,12 @@ into one single pipeline.</p>
 <dl class="py method">
 <dt id="core.dataPipelines.FullPipeline.addPipeline">
 <code class="sig-name descname">addPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pipeline</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/dataPipelines.html#FullPipeline.addPipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.dataPipelines.FullPipeline.addPipeline" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function adds a given pipeline to the full pipeline
-:param pipeline: Data pipeline to be added the full pipeline
-:type pipeline: Pipeline</p>
+<dd><p>This function adds a given pipeline to the full pipeline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pipeline</strong> (<em>Pipeline</em>) – Data pipeline to be added the full pipeline</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -197,20 +200,30 @@ into one single pipeline.</p>
 <dl class="py method">
 <dt id="core.dataPipelines.FullPipeline.fit_transform">
 <code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/dataPipelines.html#FullPipeline.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.dataPipelines.FullPipeline.fit_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function feeds the data to the full pipeline
-:param data: Pandas dataframe to be transformed
-:type data: Pandas dataframe
-:return: Transformed Pandas dataframe
-:rtype: Pandas dataframe</p>
+<dd><p>This function feeds the data to the full pipeline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Pandas dataframe</em>) – Pandas dataframe to be transformed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Transformed Pandas dataframe</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Pandas dataframe</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="core.dataPipelines.FullPipeline.initialize">
 <em class="property">classmethod </em><code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/dataPipelines.html#FullPipeline.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.dataPipelines.FullPipeline.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function initializes the full pipeline with the Pandas dataframe.
-The column names will be stored as a class attribute and then recovered when needed.
-:param data: Pandas dataframe needed for the initialization
-:type data: Pandas Dataframe</p>
+The column names will be stored as a class attribute and then recovered when needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Pandas Dataframe</em>) – Pandas dataframe needed for the initialization</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -230,11 +243,15 @@ The column names will be stored as a class attribute and then recovered when nee
 <code class="sig-name descname">addSimpleImputerPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">column</span></em>, <em class="sig-param"><span class="n">strategy</span><span class="o">=</span><span class="default_value">'most_frequent'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/dataPipelines.html#MissingValuesPipeline.addSimpleImputerPipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.dataPipelines.MissingValuesPipeline.addSimpleImputerPipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function provides basic strategies for imputing missing values that can be imputed with a provided
 constant value, or using the statistics (mean, median or most frequent) of a column in which the
-missing values are located.
-:param column: Column of the Pandas dataframe
-:type column: String
-:param strategy: Strategy of the imputation, defaults to “most_frequent”
-:type strategy: String, optional</p>
+missing values are located.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>column</strong> (<em>String</em>) – Column of the Pandas dataframe</p></li>
+<li><p><strong>strategy</strong> (<em>String</em><em>, </em><em>optional</em>) – Strategy of the imputation, defaults to “most_frequent”</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -251,11 +268,16 @@ missing values are located.
 <dl class="py method">
 <dt id="core.dataPipelines.MissingValuesPipeline.fit_transform">
 <code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataframe</span></em>, <em class="sig-param"><span class="n">remainder</span><span class="o">=</span><span class="default_value">'passthrough'</span></em>, <em class="sig-param"><span class="n">parallelize</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/dataPipelines.html#MissingValuesPipeline.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.dataPipelines.MissingValuesPipeline.fit_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit to data, then transform it
-:param dataframe: Pandas dataframe to be passed through the missing values pipeline
-:type dataframe: Pandas dataframe
-:param remainder: By specifying remainder=’passthrough’, all remaining columns that were not
-specified in transformers will be automatically passed through. Otherweise, non-specified columns
+<dd><p>Fit to data, then transform it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataframe</strong> (<em>Pandas dataframe</em>) – Pandas dataframe to be passed through the missing values pipeline</p></li>
+<li><p><strong>remainder</strong> – By specifying remainder=’passthrough’, all remaining columns that were not</p></li>
+</ul>
+</dd>
+</dl>
+<p>specified in transformers will be automatically passed through. Otherweise, non-specified columns
 are dropped, defaults to “passthrough”
 :type remainder: String, optional
 :param parallelize: Parallelize the job using all processors, defaults to True
@@ -279,11 +301,15 @@ are dropped, defaults to “passthrough”
 <dl class="py method">
 <dt id="core.dataPipelines.PreprocessingPipeline.addOnehotEncoderPipeline">
 <code class="sig-name descname">addOnehotEncoderPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">column</span></em>, <em class="sig-param"><span class="n">strategy</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/dataPipelines.html#PreprocessingPipeline.addOnehotEncoderPipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.dataPipelines.PreprocessingPipeline.addOnehotEncoderPipeline" title="Permalink to this definition">¶</a></dt>
-<dd><p>Encode categorical feature as a one-hot numeric array
-:param column: Column of the Pandas dataframe
-:type column: String
-:param strategy: Preprocessing strategy, defaults to None
-:type strategy: String or None, optional</p>
+<dd><p>Encode categorical feature as a one-hot numeric array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>column</strong> (<em>String</em>) – Column of the Pandas dataframe</p></li>
+<li><p><strong>strategy</strong> (<em>String</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Preprocessing strategy, defaults to None</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -300,11 +326,18 @@ are dropped, defaults to “passthrough”
 <dl class="py method">
 <dt id="core.dataPipelines.PreprocessingPipeline.fit_transform">
 <code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataframe</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/dataPipelines.html#PreprocessingPipeline.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.dataPipelines.PreprocessingPipeline.fit_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit to data, then transform it
-:param dataframe: Pandas dataframe to be passed through the preprocessing pipeline
-:type dataframe: Pandas dataframe
-:return: Transformed Pandas dataframe
-:rtype: Pandas dataframe</p>
+<dd><p>Fit to data, then transform it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataframe</strong> (<em>Pandas dataframe</em>) – Pandas dataframe to be passed through the preprocessing pipeline</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Transformed Pandas dataframe</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Pandas dataframe</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -336,21 +369,32 @@ parallelized over all available CPUs using the multiprocessing library.</p>
 <dl class="py method">
 <dt id="core.dataframeCreator.DataframeCreator.pickleDataframe">
 <code class="sig-name descname">pickleDataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataframe</span></em>, <em class="sig-param"><span class="n">pickledDataFile</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/dataframeCreator.html#DataframeCreator.pickleDataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.dataframeCreator.DataframeCreator.pickleDataframe" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function saves a given Pandas dataframe as a pickle file
-:param dataframe: Pandas dataframe to be saved
-:type dataframe: Pandas dataframe
-:param pickledDataFile: Path to the desired location of the pickle file
-:type pickledDataFile: String</p>
+<dd><p>This function saves a given Pandas dataframe as a pickle file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataframe</strong> (<em>Pandas dataframe</em>) – Pandas dataframe to be saved</p></li>
+<li><p><strong>pickledDataFile</strong> (<em>String</em>) – Path to the desired location of the pickle file</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="core.dataframeCreator.DataframeCreator.readCsvFile">
 <code class="sig-name descname">readCsvFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/dataframeCreator.html#DataframeCreator.readCsvFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.dataframeCreator.DataframeCreator.readCsvFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper function to wrap the read_csv function from Pandas
-:param file: Path to the csv-file to be read
-:type file: String
-:return: The csv-file is returned as two-dimensional data structure with labeled axes.
-:rtype: Pandas dataframe</p>
+<dd><p>A wrapper function to wrap the read_csv function from Pandas</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>String</em>) – Path to the csv-file to be read</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The csv-file is returned as two-dimensional data structure with labeled axes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Pandas dataframe</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -383,8 +427,15 @@ the value of a target variable by learning simple decision rules inferred from t
 <dt id="core.modelFitting.Model.bestModel">
 <code class="sig-name descname">bestModel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/modelFitting.html#Model.bestModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.modelFitting.Model.bestModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function finds the optimal depth for the decision tree model by function for fitting trees of
-various depths on the training data and choosing the optimal depth using cross-validation
-:return: Optimal decision tree depth</p>
+various depths on the training data and choosing the optimal depth using cross-validation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Optimal decision tree depth</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Integer</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">

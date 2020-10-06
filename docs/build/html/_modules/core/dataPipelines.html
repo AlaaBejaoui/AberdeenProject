@@ -179,6 +179,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function initializes the full pipeline with the Pandas dataframe.</span>
 <span class="sd">        The column names will be stored as a class attribute and then recovered when needed.</span>
+
 <span class="sd">        :param data: Pandas dataframe needed for the initialization</span>
 <span class="sd">        :type data: Pandas Dataframe</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -188,6 +189,7 @@
     <span class="k">def</span> <span class="nf">_recoverColumnsNames</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function returns the column names of the Pandas dataframe</span>
+
 <span class="sd">        :return: Column names of the Pandas dataframe</span>
 <span class="sd">        :rtype: List</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -196,6 +198,7 @@
 <div class="viewcode-block" id="FullPipeline.addPipeline"><a class="viewcode-back" href="../../core.html#core.dataPipelines.FullPipeline.addPipeline">[docs]</a>    <span class="k">def</span> <span class="nf">addPipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function adds a given pipeline to the full pipeline</span>
+
 <span class="sd">        :param pipeline: Data pipeline to be added the full pipeline</span>
 <span class="sd">        :type pipeline: Pipeline</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -204,6 +207,7 @@
 <div class="viewcode-block" id="FullPipeline.fit_transform"><a class="viewcode-back" href="../../core.html#core.dataPipelines.FullPipeline.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function feeds the data to the full pipeline</span>
+
 <span class="sd">        :param data: Pandas dataframe to be transformed</span>
 <span class="sd">        :type data: Pandas dataframe</span>
 <span class="sd">        :return: Transformed Pandas dataframe</span>
@@ -242,6 +246,7 @@
 <span class="sd">        This function provides basic strategies for imputing missing values that can be imputed with a provided</span>
 <span class="sd">        constant value, or using the statistics (mean, median or most frequent) of a column in which the</span>
 <span class="sd">        missing values are located.</span>
+
 <span class="sd">        :param column: Column of the Pandas dataframe</span>
 <span class="sd">        :type column: String</span>
 <span class="sd">        :param strategy: Strategy of the imputation, defaults to &quot;most_frequent&quot;</span>
@@ -270,6 +275,7 @@
 <div class="viewcode-block" id="MissingValuesPipeline.fit_transform"><a class="viewcode-back" href="../../core.html#core.dataPipelines.MissingValuesPipeline.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">remainder</span><span class="o">=</span><span class="s2">&quot;passthrough&quot;</span><span class="p">,</span> <span class="n">parallelize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit to data, then transform it</span>
+
 <span class="sd">        :param dataframe: Pandas dataframe to be passed through the missing values pipeline</span>
 <span class="sd">        :type dataframe: Pandas dataframe</span>
 <span class="sd">        :param remainder: By specifying remainder=&#39;passthrough&#39;, all remaining columns that were not</span>
@@ -314,6 +320,7 @@
 <div class="viewcode-block" id="PreprocessingPipeline.addOnehotEncoderPipeline"><a class="viewcode-back" href="../../core.html#core.dataPipelines.PreprocessingPipeline.addOnehotEncoderPipeline">[docs]</a>    <span class="k">def</span> <span class="nf">addOnehotEncoderPipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Encode categorical feature as a one-hot numeric array</span>
+
 <span class="sd">        :param column: Column of the Pandas dataframe</span>
 <span class="sd">        :type column: String</span>
 <span class="sd">        :param strategy: Preprocessing strategy, defaults to None</span>
@@ -345,6 +352,7 @@
 <div class="viewcode-block" id="PreprocessingPipeline.fit_transform"><a class="viewcode-back" href="../../core.html#core.dataPipelines.PreprocessingPipeline.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit to data, then transform it</span>
+
 <span class="sd">        :param dataframe: Pandas dataframe to be passed through the preprocessing pipeline</span>
 <span class="sd">        :type dataframe: Pandas dataframe</span>
 <span class="sd">        :return: Transformed Pandas dataframe</span>

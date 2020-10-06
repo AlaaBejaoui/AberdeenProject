@@ -5,7 +5,7 @@ Configuration file
 -------------------
 
 The configuration file is a yaml file that is located in **AberdeenProject/AberdeenProject** and can be found
-under the name **config.yml**.
+under the name *config.yml*.
 
 .. code-block:: yaml
 
@@ -28,7 +28,7 @@ Files and directories
 * **dirConfig**
     * **workingDir** which defines the path to the working directory
     * **dataDir** which defines the path to the data directory where the csv-files are stored
-    * **pklDir** which defines the path to the directory where the pickled dataframe will be stored
+    * **pklDir** which defines the path to the directory where the pickled dataframe is stored
 * **fileConfig**
     * **pickledData_all** which defines the name of the complete pickled dataframe
     * **pickledData_afterThFiltering** which defines the name of the pickled dataframe after the threshold filtering
@@ -39,17 +39,17 @@ Dataframe configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 * **dataframeConfig**
-    * **joinBasedOn** which defines the column name based on which the csv-files will concatenated in order to generate the full dataframe
+    * **joinBasedOn** which defines the column name based on which the csv-files will be concatenated in order to generate the full dataframe
 * **missingConfig**
     * **threshold** which defines the percentage of missing values based on which the decision whether a column should be dropped will be made
 * **randomForestConfig**
-    * **ratio** which which defines the percentage of the most important features which should be extracted after the Random Forest classifier
+    * **ratio** which defines the percentage of the most important features that should be extracted after the Random Forest classifier
 
 Features and labels
 ^^^^^^^^^^^^^^^^^^^^
 
 The user should also define a single label that will be predicted using a set of features which also should be defined
-in the configuration file. For each defined feature and label, the user should specify the imputation and the
+in the configuration file. For each defined feature and label, the user should specify the imputation as well as the
 preprocessing strategies as illustrated in the example below
 
 .. code-block:: yaml
@@ -72,14 +72,14 @@ preprocessing strategies as illustrated in the example below
         preprocessing: None
 
 
-The following startegies are currently supported
+The following strategies are currently supported
 
 * Imputation strategies: 
 
     * **"mean"**: The missing values will be replaced using the mean along each column. This strategy can only be used with numeric data
     * **"median"**: The missing values will be replaced using the median along each column. This strategy can only be used with numeric data
-    * **"most_frequent"**: The missing values will be replaced using the most frequent value along each column. This strategy can be used with strings as well as numeric data
-    * **"constant"**: The missing values will be replaced using a constant value along each column. This strategy can be used with strings as well as numeric data
+    * **"most_frequent"**: The missing values will be replaced using the most frequent value along each column. This strategy can be used with categorical as well as numeric data
+    * **"constant"**: The missing values will be replaced using a constant value along each column. This strategy can be used with categorical as well as numeric data
 
 * Preprocessing strategies: 
 
@@ -89,7 +89,7 @@ The following startegies are currently supported
 Code workflow
 -------------
 
-All the steps described below can be found in the file **main.py** which represents the entry point to execute the code. 
+All the steps described below can be found in the file *main.py* which represents the entry point to execute the code.
 
 The first step consists in creating a Pandas dataframe from the csv-files provided by the user in the **data** directory.
 The columns where the percentage of misssing values exceeds the user defined threshhold will then be dropped. Next the

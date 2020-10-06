@@ -33,12 +33,13 @@ class FullPipeline:
         cls.columns = data.columns
 
     @classmethod
-    def _recoverColumnsNames(cls):
+    def recoverColumnsNames(cls):
         """
         This function returns the column names of the Pandas dataframe
 
         :return: Column names of the Pandas dataframe
         :rtype: List
+
         """
         return cls.columns
 
@@ -125,9 +126,7 @@ class MissingValuesPipeline:
 
         :param dataframe: Pandas dataframe to be passed through the missing values pipeline
         :type dataframe: Pandas dataframe
-        :param remainder: By specifying remainder='passthrough', all remaining columns that were not
-        specified in transformers will be automatically passed through. Otherweise, non-specified columns
-        are dropped, defaults to "passthrough"
+        :param remainder: By specifying remainder='passthrough', all remaining columns that were not specified in transformers will be automatically passed through. Otherweise, non-specified columns are dropped, defaults to "passthrough"
         :type remainder: String, optional
         :param parallelize: Parallelize the job using all processors, defaults to True
         :type parallelize: Boolean, optional

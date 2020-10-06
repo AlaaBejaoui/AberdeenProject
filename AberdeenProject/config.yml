@@ -22,13 +22,13 @@ randomForestConfig:
   ratio: 0.5
 
 features:
-  # Number of employees
-  EMPLE: 
-    missing: "mean"
-    preprocessing: None
+#   # Number of employees
+#  EMPLE:
+#    missing: "mean"
+#    preprocessing: None
 
   # Estimated revenue
-  REVEN: 
+  REVEN:
     missing: "mean"
     preprocessing: None
 
@@ -52,25 +52,25 @@ features:
     missing: "most_frequent"
     preprocessing: "one_hot"
 
-  # Desktop manufacturer
-  DESKTOP_MANUF: 
-    missing: "most_frequent" 
-    preprocessing: "one_hot"
+#  # Desktop manufacturer
+#  DESKTOP_MANUF:
+#    missing: "most_frequent"
+#    preprocessing: "one_hot"
 
   # Laptop manufacturer
-  LAPTOP_MANUF: 
-    missing: "most_frequent" 
+  LAPTOP_MANUF:
+    missing: "most_frequent"
     preprocessing: "one_hot"
 
   # IT budget
-  IT_BUDGET: 
-    missing: "mean" 
+  IT_BUDGET:
+    missing: "mean"
     preprocessing: None
 
-  # Hardware budget
-  HARDWARE_BUDGET: 
-    missing: "mean" 
-    preprocessing: None
+#  # Hardware budget
+#  HARDWARE_BUDGET:
+#    missing: "mean"
+#    preprocessing: None
 
   # PC budget
   PC_BUDGET: 
@@ -82,20 +82,20 @@ features:
     missing: "most_frequent" 
     preprocessing: "one_hot"
 
-  # Number of employees using the internet
-  INTERNET_USERS: 
-    missing: "most_frequent" 
-    preprocessing: "one_hot"
+#  # Number of employees using the internet
+#  INTERNET_USERS:
+#    missing: "most_frequent"
+#    preprocessing: "one_hot"
 
-  # Number of developers
-  DEVELOPERS: 
-    missing: "most_frequent" 
-    preprocessing: "one_hot"
+#  # Number of developers
+#  DEVELOPERS:
+#    missing: "most_frequent"
+#    preprocessing: "one_hot"
 
-  # Number of desktop PCs
-  DESKTOPS: 
-    missing: "mean" 
-    preprocessing: None
+#  # Number of desktop PCs
+#  DESKTOPS:
+#    missing: "mean"
+#    preprocessing: None
 
   # Number of laptops
   LAPTOPS: 
@@ -103,19 +103,19 @@ features:
     preprocessing: None
 
   # Whether the company is identified as a part of a multinational company
-  MULTINATIONAL: 
-    missing: "most_frequent" 
+  MULTINATIONAL:
+    missing: "most_frequent"
     preprocessing: "one_hot"
 
-  # Enterprise type
-  ENT_TYPE: 
-    missing: "most_frequent" 
-    preprocessing: "one_hot"
+#  # Enterprise type
+#  ENT_TYPE:
+#    missing: "most_frequent"
+#    preprocessing: "one_hot"
 
-  # Enterprise rank
-  ENT_RANK: 
-    missing: "mean" 
-    preprocessing: None
+#  # Enterprise rank
+#  ENT_RANK:
+#    missing: "mean"
+#    preprocessing: None
 
   # Number of laptops that are more than 3 years old
   ENT_LAPTOP: 

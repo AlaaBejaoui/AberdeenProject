@@ -168,7 +168,7 @@
 <div class="section" id="configuration-file">
 <h2>Configuration file<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
 <p>The configuration file is a yaml file that is located in <strong>AberdeenProject/AberdeenProject</strong> and can be found
-under the name <strong>config.yml</strong>.</p>
+under the name <em>config.yml</em>.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dirConfig</span><span class="p">:</span>
     <span class="nt">workingDir</span><span class="p">:</span> <span class="s">&quot;/home/Linux/AberdeenProject&quot;</span>
     <span class="nt">dataDir</span><span class="p">:</span> <span class="s">&quot;/home/Linux/AberdeenProject/AberdeenProject/data&quot;</span>
@@ -189,7 +189,7 @@ under the name <strong>config.yml</strong>.</p>
 <dt><strong>dirConfig</strong></dt><dd><ul>
 <li><p><strong>workingDir</strong> which defines the path to the working directory</p></li>
 <li><p><strong>dataDir</strong> which defines the path to the data directory where the csv-files are stored</p></li>
-<li><p><strong>pklDir</strong> which defines the path to the directory where the pickled dataframe will be stored</p></li>
+<li><p><strong>pklDir</strong> which defines the path to the directory where the pickled dataframe is stored</p></li>
 </ul>
 </dd>
 </dl>
@@ -211,7 +211,7 @@ under the name <strong>config.yml</strong>.</p>
 <ul class="simple">
 <li><dl class="simple">
 <dt><strong>dataframeConfig</strong></dt><dd><ul>
-<li><p><strong>joinBasedOn</strong> which defines the column name based on which the csv-files will concatenated in order to generate the full dataframe</p></li>
+<li><p><strong>joinBasedOn</strong> which defines the column name based on which the csv-files will be concatenated in order to generate the full dataframe</p></li>
 </ul>
 </dd>
 </dl>
@@ -225,7 +225,7 @@ under the name <strong>config.yml</strong>.</p>
 </li>
 <li><dl class="simple">
 <dt><strong>randomForestConfig</strong></dt><dd><ul>
-<li><p><strong>ratio</strong> which which defines the percentage of the most important features which should be extracted after the Random Forest classifier</p></li>
+<li><p><strong>ratio</strong> which defines the percentage of the most important features that should be extracted after the Random Forest classifier</p></li>
 </ul>
 </dd>
 </dl>
@@ -235,7 +235,7 @@ under the name <strong>config.yml</strong>.</p>
 <div class="section" id="features-and-labels">
 <h3>Features and labels<a class="headerlink" href="#features-and-labels" title="Permalink to this headline">¶</a></h3>
 <p>The user should also define a single label that will be predicted using a set of features which also should be defined
-in the configuration file. For each defined feature and label, the user should specify the imputation and the
+in the configuration file. For each defined feature and label, the user should specify the imputation as well as the
 preprocessing strategies as illustrated in the example below</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">features</span><span class="p">:</span>
 <span class="c1"># Number of employees</span>
@@ -255,15 +255,15 @@ preprocessing strategies as illustrated in the example below</p>
     <span class="nt">preprocessing</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">None</span>
 </pre></div>
 </div>
-<p>The following startegies are currently supported</p>
+<p>The following strategies are currently supported</p>
 <ul>
 <li><p>Imputation strategies:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><strong>“mean”</strong>: The missing values will be replaced using the mean along each column. This strategy can only be used with numeric data</p></li>
 <li><p><strong>“median”</strong>: The missing values will be replaced using the median along each column. This strategy can only be used with numeric data</p></li>
-<li><p><strong>“most_frequent”</strong>: The missing values will be replaced using the most frequent value along each column. This strategy can be used with strings as well as numeric data</p></li>
-<li><p><strong>“constant”</strong>: The missing values will be replaced using a constant value along each column. This strategy can be used with strings as well as numeric data</p></li>
+<li><p><strong>“most_frequent”</strong>: The missing values will be replaced using the most frequent value along each column. This strategy can be used with categorical as well as numeric data</p></li>
+<li><p><strong>“constant”</strong>: The missing values will be replaced using a constant value along each column. This strategy can be used with categorical as well as numeric data</p></li>
 </ul>
 </div></blockquote>
 </li>
@@ -280,7 +280,7 @@ preprocessing strategies as illustrated in the example below</p>
 </div>
 <div class="section" id="code-workflow">
 <h2>Code workflow<a class="headerlink" href="#code-workflow" title="Permalink to this headline">¶</a></h2>
-<p>All the steps described below can be found in the file <strong>main.py</strong> which represents the entry point to execute the code.</p>
+<p>All the steps described below can be found in the file <em>main.py</em> which represents the entry point to execute the code.</p>
 <p>The first step consists in creating a Pandas dataframe from the csv-files provided by the user in the <strong>data</strong> directory.
 The columns where the percentage of misssing values exceeds the user defined threshhold will then be dropped. Next the
 dataframe will be pickled and stored in the <strong>pickledData</strong> directory.</p>
