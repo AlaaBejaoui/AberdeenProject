@@ -8,6 +8,7 @@ def pklToCsv(pathToPklFile, pathToCsvFile):
     :param pathToPklFile: Path to the pkl file
     :param pathToCsvFile: Path to the csv file
     """
+
     data = pickle.load(open(pathToPklFile, 'rb'))
 
     data.to_csv(pathToCsvFile)

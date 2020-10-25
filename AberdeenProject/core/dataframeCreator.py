@@ -83,7 +83,7 @@ class DataframeCreator:
         self.dataframe = self.dataframe.loc[:,
                                             ~self.dataframe.columns.duplicated()]
 
-        # self.dataframe = self.dataframe[self.dataframe['SICGRP'] == 'MED']
+        # self.dataframe = self.dataframe[self.dataframe['SICGRP'] == 'GOVT']
 
         self.pickleDataframe(self.dataframe, self.config.get(
             "fileConfig").get("pickledData_all"))
