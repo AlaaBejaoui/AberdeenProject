@@ -211,6 +211,7 @@ under the name <em>config.yml</em>.</p>
 <ul class="simple">
 <li><dl class="simple">
 <dt><strong>dataframeConfig</strong></dt><dd><ul>
+<li><p><strong>separator</strong> which defines the delimiter used in the csv-files</p></li>
 <li><p><strong>joinBasedOn</strong> which defines the column name based on which the csv-files will be concatenated in order to generate the full dataframe</p></li>
 </ul>
 </dd>
@@ -286,6 +287,8 @@ The columns where the percentage of misssing values exceeds the user defined thr
 dataframe will be pickled and stored in the <strong>pickledData</strong> directory.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creating the dataframe from csv files</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">DataframeCreator</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converting the pkl files into csv files ...&quot;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">convertPklToCsv</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creating the dataframe from csv files ...&quot;</span><span class="p">)</span>
 <span class="n">data</span><span class="o">.</span><span class="n">createDataframe</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Filtering the dataframe based on the threshold ...&quot;</span><span class="p">)</span>

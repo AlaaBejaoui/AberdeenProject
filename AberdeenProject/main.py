@@ -5,11 +5,11 @@ import pickle
 import pprint
 import pandas as pd
 import numpy as np
-from core.dataframeCreator import DataframeCreator
-from core.modelFitting import Model
-from core.dataPipelines import FullPipeline, MissingValuesPipeline, PreprocessingPipeline
-from utilities.statistics import Statistics
-from utilities.loadConfigFile import loadConfigFile
+from .core.dataframeCreator import DataframeCreator
+from .core.modelFitting import Model
+from .core.dataPipelines import FullPipeline, MissingValuesPipeline, PreprocessingPipeline
+from .utilities.statistics import Statistics
+from .utilities.loadConfigFile import loadConfigFile
 
 
 def main():

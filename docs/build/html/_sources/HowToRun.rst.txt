@@ -39,6 +39,7 @@ Dataframe configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 * **dataframeConfig**
+    * **separator** which defines the delimiter used in the csv-files
     * **joinBasedOn** which defines the column name based on which the csv-files will be concatenated in order to generate the full dataframe
 * **missingConfig**
     * **threshold** which defines the percentage of missing values based on which the decision whether a column should be dropped will be made
@@ -99,6 +100,8 @@ dataframe will be pickled and stored in the **pickledData** directory.
 
     # Creating the dataframe from csv files
     data = DataframeCreator()
+    print("Converting the pkl files into csv files ...")
+    data.convertPklToCsv()
     print("Creating the dataframe from csv files ...")
     data.createDataframe()
     print("Filtering the dataframe based on the threshold ...")

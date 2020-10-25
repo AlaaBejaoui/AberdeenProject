@@ -1,7 +1,7 @@
-from utilities.statistics import Statistics
-from utilities.loadPickledData import loadPickledData
-from utilities.loadConfigFile import loadConfigFile
-from utilities.pklToCsv import pklToCsv
+from ..utilities.statistics import Statistics
+from ..utilities.loadPickledData import loadPickledData
+from ..utilities.loadConfigFile import loadConfigFile
+from ..utilities.pklToCsv import pklToCsv
 from itertools import chain
 from itertools import count
 from multiprocessing import Pool
@@ -28,6 +28,11 @@ class DataframeCreator:
         self.dataframe = pd.DataFrame()
 
     def convertPklToCsv(self):
+        """
+
+        This function converts pkl files in the "data/" directory into csv files
+
+        """
         for file in os.listdir(loadConfigFile().get("dirConfig").get("dataDir")):
             if not file.startswith('.') and file.endswith('pkl'):
                 pathToPklFile = os.path.join(loadConfigFile().get("dirConfig").get("dataDir"),

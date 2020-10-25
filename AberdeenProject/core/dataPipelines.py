@@ -7,7 +7,7 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder
-from utilities.loadConfigFile import loadConfigFile
+from ..utilities.loadConfigFile import loadConfigFile
 from itertools import chain
 
 

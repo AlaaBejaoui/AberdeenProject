@@ -1,4 +1,4 @@
-from utilities.loadPickledData import loadPickledData
+from ..utilities.loadPickledData import loadPickledData
 
 class Statistics:
     """

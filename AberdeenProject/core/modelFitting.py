@@ -9,7 +9,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import export_text
 from sklearn.tree import DecisionTreeClassifier
-from utilities.loadConfigFile import loadConfigFile
+from ..utilities.loadConfigFile import loadConfigFile
 
 
 class Model:

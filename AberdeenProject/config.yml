@@ -1,10 +1,7 @@
 dirConfig:
   workingDir: "/mnt/d/OneDrive - bwedu/Documents/MASTER/6.Semester_Ausland/Aberdeen/AberdeenProject/AberdeenProject"
-  #workingDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject"
   dataDir: "/mnt/d/OneDrive - bwedu/Documents/MASTER/6.Semester_Ausland/Aberdeen/AberdeenProject/AberdeenProject/data"
-  #dataDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject\\data"
   pklDir: "/mnt/d/OneDrive - bwedu/Documents/MASTER/6.Semester_Ausland/Aberdeen/AberdeenProject/AberdeenProject/pickeledData"
-  #pklDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject\\pickeledData"
 
 fileConfig:
   pickledData_all: "dataframe_all.pkl"
