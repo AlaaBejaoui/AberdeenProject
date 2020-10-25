@@ -31,8 +31,8 @@ class Model:
         :type algorithm: String
         """
 
-        assert len(label := list(loadConfigFile().get("labels").keys())
-                   ) == 1, "Only model fitting for one label is currently implemented!"
+        label = list(loadConfigFile().get("labels").keys())
+        assert len(label) == 1, "Only model fitting for one label is currently implemented!"
         labelName = label[0]
 
         self.X = dataframe.loc[:, dataframe.columns != labelName]
@@ -162,7 +162,7 @@ class Model:
                              feature_names=feature_names,
                              class_names=class_names,
                              filled=True,
-                             max_depth=4,
+                             max_depth=2,
                              impurity=False)
 
     def graphvizToPng(self, out_file):

@@ -67,7 +67,7 @@ class FullPipeline:
                 data = pipeline.fit_transform(data)
             else:
                 data = pd.DataFrame(pipeline.fit_transform(data))
-                data.columns = self.__class__._recoverColumnsNames()
+                data.columns = self.__class__.recoverColumnsNames()
 
         return data
 

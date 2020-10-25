@@ -1,9 +1,9 @@
 dirConfig:
-  workingDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject"
+  workingDir: "/mnt/d/OneDrive - bwedu/Documents/MASTER/6.Semester_Ausland/Aberdeen/AberdeenProject/AberdeenProject"
   #workingDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject"
-  dataDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject\\data"
+  dataDir: "/mnt/d/OneDrive - bwedu/Documents/MASTER/6.Semester_Ausland/Aberdeen/AberdeenProject/AberdeenProject/data"
   #dataDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject\\data"
-  pklDir: "D:\\OneDrive - bwedu\\Documents\\MASTER\\6.Semester_Ausland\\Aberdeen\\AberdeenProject\\AberdeenProject\\pickeledData"
+  pklDir: "/mnt/d/OneDrive - bwedu/Documents/MASTER/6.Semester_Ausland/Aberdeen/AberdeenProject/AberdeenProject/pickeledData"
   #pklDir: "C:\\Users\\alaab\\OneDrive\\Desktop\\AberdeenProject\\AberdeenProject\\pickeledData"
 
 fileConfig:
@@ -13,6 +13,8 @@ fileConfig:
   features_afterRFFiltering: "features_afterRFFiltering.txt"
 
 dataframeConfig:
+  #separator: "/t"
+  separator: ","
   joinBasedOn: "SITEID"
 
 missingConfig:

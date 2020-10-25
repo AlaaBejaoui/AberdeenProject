@@ -1,6 +1,7 @@
 from utilities.statistics import Statistics
 from utilities.loadPickledData import loadPickledData
 from utilities.loadConfigFile import loadConfigFile
+from utilities.pklToCsv import pklToCsv
 from itertools import chain
 from itertools import count
 from multiprocessing import Pool
@@ -26,6 +27,15 @@ class DataframeCreator:
         self.config = loadConfigFile()
         self.dataframe = pd.DataFrame()
 
+    def convertPklToCsv(self):
+        for file in os.listdir(loadConfigFile().get("dirConfig").get("dataDir")):
+            if not file.startswith('.') and file.endswith('pkl'):
+                pathToPklFile = os.path.join(loadConfigFile().get("dirConfig").get("dataDir"),
+                                             file)
+                pathToCsvFile = os.path.join(loadConfigFile().get("dirConfig").get("dataDir"),
+                                             file[:-4] + '.csv')
+                pklToCsv(pathToPklFile, pathToCsvFile)
+
     def readCsvFile(self, file):
         """
         A wrapper function to wrap the read_csv function from Pandas
@@ -37,7 +47,8 @@ class DataframeCreator:
         """
 
         dataDir = self.config.get("dirConfig").get("dataDir")
-        return pd.read_csv(os.path.join(dataDir, file), sep='\t')
+        separator = self.config.get("dataframeConfig").get("separator")
+        return pd.read_csv(os.path.join(dataDir, file), sep=separator)
 
     def createDataframe(self):
         """
@@ -48,7 +59,7 @@ class DataframeCreator:
         parallelized over all available CPUs using the multiprocessing library.
         """
 
-        csvFiles = [f for f in os.listdir(self.config.get("dirConfig").get("dataDir")) if not f.startswith('.')]
+        csvFiles = [f for f in os.listdir(self.config.get("dirConfig").get("dataDir")) if f.endswith('csv')]
 
         with Pool(len(csvFiles)) as p:
             collectedData = p.map(self.readCsvFile, csvFiles)
@@ -71,6 +82,8 @@ class DataframeCreator:
         # Remove duplicated columns
         self.dataframe = self.dataframe.loc[:,
                                             ~self.dataframe.columns.duplicated()]
+
+        # self.dataframe = self.dataframe[self.dataframe['SICGRP'] == 'MED']
 
         self.pickleDataframe(self.dataframe, self.config.get(
             "fileConfig").get("pickledData_all"))
