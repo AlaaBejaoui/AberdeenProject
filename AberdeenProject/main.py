@@ -20,8 +20,8 @@ def main():
 
     # Creating the dataframe from csv files
     data = DataframeCreator()
-    print("Converting the pkl files into csv files ...")
-    data.convertPklToCsv()
+    #print("Converting the pkl files into csv files ...")
+    #data.convertPklToCsv()
     print("Creating the dataframe from csv files ...")
     data.createDataframe()
     print("Filtering the dataframe based on the threshold ...")
