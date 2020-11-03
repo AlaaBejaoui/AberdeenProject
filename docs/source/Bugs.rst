@@ -1,7 +1,10 @@
-.. _known_bugs:
+.. _limitations:
 
-Known Bugs
+Limitations
 ===========
+
+Windows bugs
+-------------
 
 The function **graphvizToPng** which converts the dot file into an image using the subprocess module works only in a
 Linux environment but not in Windows
@@ -34,3 +37,19 @@ In order to overcome this problem, there are several solutions
 
         * `How to install the Linux subsystem in Windows 10 ? <https://docs.microsoft.com/en-us/windows/wsl/install-win10>`__
         * `How to find the Windows files in the Linux subsystem ? <https://docs.microsoft.com/en-us/windows/wsl/faq#how-do-i-use-a-windows-file-with-a-linux-app>`__
+
+Imbalanced classes
+------------------
+During our tests with the Aberdeen data, we encountered the problem of imbalanced data. In order to solve this problem,
+there are several solutions. One solution is the so called SMOTE which stands for *S**ynthetic **M**inority
+**O**ver-Sampling **Te**chnique. For further information on how to implement this method in Python, please check the
+following link
+
+    *`How to Deal with Imbalanced Data using SMOTE ? <https://medium.com/analytics-vidhya/balance-your-data-using-smote-98e4d79fcddb>`__
+
+Imputation strategies
+----------------------
+In order to deal with missing values, a more sophisticated imputation strategy can be used. For further information on
+how to implement this method in Python, please check the following link
+
+    *`Multivariate feature imputation <https://scikit-learn.org/stable/modules/impute.html#multivariate-feature-imputation>`__

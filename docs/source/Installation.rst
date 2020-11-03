@@ -6,7 +6,7 @@ Before we get started
 
 This version of code is currently only supported on Linux. It may be possible to execute it on Windows, 
 though this hasn’t been extensively tested. Some functionalities like generating the image including the
-decision tree rules from the dot file may not work as intended. Please refer to the :ref:`known_bugs` section
+decision tree rules from the dot file may not work as intended. Please refer to the :ref:`limitations` section
 for further information regarding this problem.
 
 Preparing the environment
