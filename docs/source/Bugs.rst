@@ -41,15 +41,15 @@ In order to overcome this problem, there are several solutions
 Imbalanced classes
 ------------------
 During our tests with the Aberdeen data, we encountered the problem of imbalanced data. In order to solve this problem,
-there are several solutions. One solution is the so called SMOTE which stands for *S**ynthetic **M**inority
-**O**ver-Sampling **Te**chnique. For further information on how to implement this method in Python, please check the
+there are several solutions. One solution is the so called SMOTE which stands for *Synthetic Minority*
+*Over-Sampling Technique*. For further information on how to implement this method in Python, please check the
 following link
 
-    *`How to Deal with Imbalanced Data using SMOTE ? <https://medium.com/analytics-vidhya/balance-your-data-using-smote-98e4d79fcddb>`__
+    * `How to Deal with Imbalanced Data using SMOTE ? <https://medium.com/analytics-vidhya/balance-your-data-using-smote-98e4d79fcddb>`__
 
 Imputation strategies
 ----------------------
 In order to deal with missing values, a more sophisticated imputation strategy can be used. For further information on
 how to implement this method in Python, please check the following link
 
-    *`Multivariate feature imputation <https://scikit-learn.org/stable/modules/impute.html#multivariate-feature-imputation>`__
+    * `Multivariate feature imputation <https://scikit-learn.org/stable/modules/impute.html#multivariate-feature-imputation>`__
